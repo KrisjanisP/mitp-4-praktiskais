@@ -41,7 +41,8 @@ doubles = []
 
 for x in l:
     if x in seen:
-        doubles.append(x)
+        if x not in doubles:
+            doubles.append(x)
     else:
         seen.add(x)
 
