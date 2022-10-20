@@ -6,6 +6,7 @@ Uzdevums: aizpildīt vietas ar atzīmi TODO
 Apraksts: Šīs programmas uzdevums ir lejupielādēt grāmatu 
           un veik dažādas darbības ar tās saturu
 '''
+from formatter import NullFormatter
 import urllib.request
 import os
 import string
@@ -49,8 +50,10 @@ def get_text( url ):
 
     # Atvērt failu ar utf-8 encoding un izvadīt faila saturu
     # TODO
+    with open(filename, encoding="utf8") as f:
+        text = f.readlines()
         
-    return text
+    return ' '.join(text)
 
 def replace_non_ascii_by_space( text ):
     """
@@ -79,13 +82,13 @@ strip = string.whitespace + string.punctuation + string.digits + "\"'" + " "
 #####################
 
 ## Izmantojot fukciju  get_text  dabūt saturu no grāmatas kas atrodama files sarakstā otrā rindā
-text = '' # TODO
+text = get_text(gramatas[0]) # TODO
 
 ## tekstu pārveidot tā, lai visi burti būtu ar mazo burtu (lower capital)
-text = '' # TODO
+text = text.lower() # TODO
 
 ## izsaukt funkciju replace_non_ascii_by_space un padot tai parametru text
-text = text
+text = replace_non_ascii_by_space(text)
 
 
 # Tukša vārdnica, kur tiks saglabāts katrs vārd ar tā biežumu
@@ -100,13 +103,13 @@ for word in text.split():
     # saglabāt tikai vārdus, kuri garāki par 2 simboliem
     if len( word ) > 2:
         # palielināt varda skaitu vārdnīcā par 1
-        words[ word ] = 0 # TODO
+        words[word] = words.get(word, 0) + 1 # TODO
 
 ## Atkomentēt assert testu, lai pārbaudītu rezultātu
 # assert words==helperMajasdarbs.solution_1 # TODO
         
 ## Izveidot listi ar 100 biežāk lietotiem vārdiem
-top_vardi = []
+top_vardi = dict(sorted(words.items(), key = lambda x: x[1], reverse=True)[:100])
 
 # TODO parametrs top_vardi ir liste ar 100 biežākiem vārdiem no vārdnīcas words
 
@@ -117,10 +120,24 @@ print(top_vardi)
 
 ##  Izveido vārdnīcu "words", kas satur visu 3 grāmatu vārdus 
 # (līdzīgi kā ar vienu grāmatu augšā, bet jāiterē cauri grāmatām)
+text = ""
+for gramata in gramatas:
+    text += get_text(gramata)
 
 # TODO
 
 ## Kādi top 100 no visām 3 grāmatām?
+
+for word in text.split():
+
+    word = word.strip( strip ) 
+    
+    if len( word ) > 2:
+        words[word] = words.get(word, 0) + 1
+
+top_vardi = dict(sorted(words.items(), key = lambda x: x[1], reverse=True)[:100])
+
+print(top_vardi)
 
 # TODO 
 

@@ -8,6 +8,23 @@ s = set(range(1,n ))
 l=[random.randint(1, n-1) for x in range(n)]
 print(l)
 
+# def findDuplicate(nums):
+#     tortoise = nums[0]
+#     hare = nums [0]
+#     while True:
+#         tortoise = nums[tortoise]
+#         hare = nums[nums[hare]]
+#         if tortoise == hare:
+#             break
+    
+#     ptr1 = nums[0]
+#     ptr2 = tortoise
+#     while ptr1 != ptr2:
+#         ptr1 = nums[ptr1]
+#         ptr2 = nums[ptr2]
+    
+#     return ptr1
+
 
 ###########################
 ########### atrodi dubultos
@@ -18,6 +35,16 @@ print(l)
 # s ir set ar numuriem 1-6
 doubles=[]
 # TODO
+
+seen = set()
+doubles = []
+
+for x in l:
+    if x in seen:
+        doubles.append(x)
+    else:
+        seen.add(x)
+
 print(doubles)
 
 
