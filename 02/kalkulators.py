@@ -24,6 +24,4 @@ def parbaudit_ievadi():
         exit()
 
 
-print(sys.argv)
-
 parbaudit_ievadi()
