@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 '''
 Python 7 mājasdarbs Nr.1
 
@@ -15,17 +14,25 @@ class JaunsDatuTips:
         # pārbaudīt vērtību "vertiba" vai sastāv no atļautām skatiliskiem vārdiem
         # un izveidot loģiku, kas savieno "one" kā 1; "two" kā 2 utt.
         # TODO
-        self.vertiba = "" 
+        self.number_dict = {
+            'one': 1,
+            'two': 2,
+            'three': 3,
+            'four': 4,
+            'five': 5
+        }
+        if vertiba in self.number_dict:
+            self.vertiba = vertiba
 
     def get_int(self):
         # kad tiek izsaukta metode atdod parametru "vertiba" kā integer datu tipu
         # TODO
-        return 0
+        return int(self.number_dict[self.vertiba])
 
     def get_float(self):
         # kad tiek izsaukta metode atdod parametru "vertiba" kā float datu tipu
         # TODO        
-        return 0.0
+        return float(self.number_dict[self.vertiba])
 
     def get_string(self):
         # kad tiek izsaukta metode atdod parametru "vertiba" kā string datu tipu
@@ -41,7 +48,7 @@ if __name__ == "__main__":
 
     # Kad uzvedums izpildīts, var pārbaudīt vai rezultāts ir pareizs, atkomentējot assert
     # TODO
-    '''
+    
     assert x1.get_int()==1
     assert x2.get_int()==2
     assert x3.get_int()==3
@@ -59,4 +66,4 @@ if __name__ == "__main__":
     assert x3.get_string()=="three"
     assert x4.get_string()=="four"
     assert x5.get_string()=="five"
-    '''
+    
