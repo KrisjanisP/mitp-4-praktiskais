@@ -1,3 +1,5 @@
+// g++ main.cpp; ./a.exe
+
 #include <iostream>
 #include <io.h>
 #include <fcntl.h>
@@ -14,16 +16,18 @@ int main()
 
     wstring str = L"Programmas ir jaraksta cilvekiem, kas tas lasis!";
 
+    wcout << L"Darbību saraksts :" << endl
+          << L"1: Ievadīt jaunu tekstu (parastie burti)" << endl
+          << L"2: Pasaka vai ievadītā teksta garums ir pāra vai nepāra skaitlis" << endl
+          << L"3. Izvada summu no 1..n (kur n = teksta garums)" << endl
+          << L"4. Atrod faktoriāli n (kur n = teksta garums)" << endl
+          << L"5. Izvada virkni no otrā gala (reversā)" << endl
+          << L"6. Beigt darbību" << endl;
+
     int ok = 1;
     do
     {
-        wcout << L"1: Ievadīt jaunu tekstu (parastie burti)" << endl
-              << L"2: Pasaka vai ievadītā teksta garums ir pāra vai nepāra skaitlis" << endl
-              << L"3. Izvada summu no 1..n (kur n = teksta garums)" << endl
-              << L"4. Atrod faktoriāli n (kur n = teksta garums)" << endl
-              << L"5. Izvada virkni no otrā gala (reversā)" << endl
-              << L"6. Beigt darbību" << endl;
-
+        wcout << L"Darbība: ";
         wstring input;
         wcin >> input;
 
@@ -50,7 +54,21 @@ int main()
                   << (str.length() * (str.length() + 1)) / 2 << "!" << endl;
             break;
         case 4:
-            wcout << L"Coming soon" << endl;
+            for (long long i = 1, factorial = 1, len = str.length();
+                 i <= len;
+                 ++i, factorial *= i)
+            {
+                if (len > 20)
+                {
+                    factorial %= ((long long)1E9 + 7);
+                }
+                if (i == len)
+                {
+                    wcout << L"Faktoriāls no " << len
+                          << (len > 20 ? L" (pēc moduļa no 1E9 + 7)" : L"")
+                          << " ir " << factorial << endl;
+                }
+            }
             break;
         case 5:
             for (int i = str.length() - 1; i >= 0; --i)
