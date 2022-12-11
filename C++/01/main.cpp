@@ -17,7 +17,7 @@ int main()
     wstring str = L"Programmas ir jaraksta cilvekiem, kas tas lasis!";
 
     wcout << L"Darbību saraksts :" << endl
-          << L"1: Ievadīt jaunu tekstu (parastie burti)" << endl
+          << L"1: Ievadīt jaunu tekstu" << endl
           << L"2: Pasaka vai ievadītā teksta garums ir pāra vai nepāra skaitlis" << endl
           << L"3. Izvada summu no 1..n (kur n = teksta garums)" << endl
           << L"4. Atrod faktoriāli n (kur n = teksta garums)" << endl
