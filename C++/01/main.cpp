@@ -2,9 +2,9 @@
 #include <io.h>
 #include <fcntl.h>
 
+using std::endl;
 using std::wcin;
 using std::wcout;
-using std::endl;
 using std::wstring;
 
 int main()
@@ -18,14 +18,20 @@ int main()
     do
     {
         wcout << L"1: Ievadīt jaunu tekstu (parastie burti)" << endl
-             << L"2: Pasaka vai ievadītā teksta garums ir pāra vai nepāra skaitlis" << endl
-             << L"3. Izvada summu no 1..n (kur n = teksta garums)" << endl
-             << L"4. Atrod faktoriāli n (kur n = teksta garums)" << endl
-             << L"5. Izvada virkni no otrā gala (reversā)" << endl
-             << L"6. Beigt darbību" << endl;
+              << L"2: Pasaka vai ievadītā teksta garums ir pāra vai nepāra skaitlis" << endl
+              << L"3. Izvada summu no 1..n (kur n = teksta garums)" << endl
+              << L"4. Atrod faktoriāli n (kur n = teksta garums)" << endl
+              << L"5. Izvada virkni no otrā gala (reversā)" << endl
+              << L"6. Beigt darbību" << endl;
 
-        int choice;
-        wcin >> choice;
+        wstring input;
+        wcin >> input;
+
+        int choice = -1;
+        if (input.length() == 1)
+        {
+            choice = input[0] - L'0';
+        }
 
         switch (choice)
         {
@@ -37,11 +43,11 @@ int main()
             break;
         case 2:
             wcout << L"Teksta garums ir " << (str.length() & 1 ? L"nepāra" : L"pāra")
-                 << L" skaitlis!" << endl;
+                  << L" skaitlis!" << endl;
             break;
         case 3:
             wcout << L"Summa no 1 līdz " << str.length() << " ir "
-                 << (str.length() * (str.length() + 1)) / 2 << "!" << endl;
+                  << (str.length() * (str.length() + 1)) / 2 << "!" << endl;
             break;
         case 4:
             wcout << L"Coming soon" << endl;
