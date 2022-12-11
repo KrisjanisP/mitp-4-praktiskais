@@ -1,58 +1,64 @@
 #include <iostream>
+#include <io.h>
+#include <fcntl.h>
 
-using std::cin;
-using std::cout;
+using std::wcin;
+using std::wcout;
 using std::endl;
-using std::string;
+using std::wstring;
 
 int main()
 {
-    string str = "Programmas ir jaraksta cilvekiem, kas tas lasis!";
+    _setmode(_fileno(stdout), _O_WTEXT);
+    _setmode(_fileno(stdin), _O_WTEXT);
+
+    wstring str = L"Programmas ir jaraksta cilvekiem, kas tas lasis!";
 
     int ok = 1;
     do
     {
-        cout << "1: Ievadīt jaunu tekstu (parastie burti)" << endl
-             << "2: Pasaka vai ievadītā teksta garums ir pāra vai nepāra skaitlis" << endl
-             << "3. Izvada summu no 1..n (kur n = teksta garums)" << endl
-             << "4. Atrod faktoriāli n (kur n = teksta garums)" << endl
-             << "5. Izvada virkni no otrā gala (reversā)" << endl
-             << "6. Beigt darbību" << endl;
+        wcout << L"1: Ievadīt jaunu tekstu (parastie burti)" << endl
+             << L"2: Pasaka vai ievadītā teksta garums ir pāra vai nepāra skaitlis" << endl
+             << L"3. Izvada summu no 1..n (kur n = teksta garums)" << endl
+             << L"4. Atrod faktoriāli n (kur n = teksta garums)" << endl
+             << L"5. Izvada virkni no otrā gala (reversā)" << endl
+             << L"6. Beigt darbību" << endl;
 
         int choice;
-        cin >> choice;
+        wcin >> choice;
 
         switch (choice)
         {
         case 1:
-            cout << "Ievadīt virkni: ";
-            cin.ignore();
-            getline(cin, str);
+            wcout << L"Ievadīt virkni: ";
+            wcin.ignore();
+            fflush(stdin);
+            getline(wcin, str);
             break;
         case 2:
-            cout << "Teksta garums ir " << (str.length() & 1 ? "nepāra" : "pāra")
-                 << " skaitlis!" << endl;
+            wcout << L"Teksta garums ir " << (str.length() & 1 ? L"nepāra" : L"pāra")
+                 << L" skaitlis!" << endl;
             break;
         case 3:
-            cout << "Summa no 1 līdz " << str.length() << " ir "
+            wcout << L"Summa no 1 līdz " << str.length() << " ir "
                  << (str.length() * (str.length() + 1)) / 2 << "!" << endl;
             break;
         case 4:
-            cout << "Coming soon" << endl;
+            wcout << L"Coming soon" << endl;
             break;
         case 5:
             for (int i = str.length() - 1; i >= 0; --i)
             {
-                cout << str[i];
+                wcout << str[i];
             }
-            cout << endl;
+            wcout << endl;
             break;
         case 6:
-            cout << "Programmas darbība pabeigta!" << endl;
+            wcout << L"Programmas darbība pabeigta!" << endl;
             ok = 0;
             break;
         default:
-            cout << "Ievadīt korektu vērtību!" << endl;
+            wcout << L"Ievadīt korektu vērtību!" << endl;
             break;
         }
 
