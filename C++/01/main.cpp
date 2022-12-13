@@ -1,10 +1,14 @@
 // g++ main.cpp; ./a.exe
 
 #include <iostream>
+#include <cmath>
+#include <set>
 #include <io.h>
 #include <fcntl.h>
 
 using std::endl;
+using std::set;
+using std::min;
 using std::wcin;
 using std::wcout;
 using std::wstring;
@@ -22,7 +26,10 @@ int main()
           << L"3. Izvada summu no 1..n (kur n = teksta garums)" << endl
           << L"4. Atrod faktoriāli n (kur n = teksta garums)" << endl
           << L"5. Izvada virkni no otrā gala (reversā)" << endl
-          << L"6. Beigt darbību" << endl;
+          << L"6. Beigt darbību" << endl
+          << L"7. Atrod īsāko vārdu virknē un izdrukā to uz ekrāna" << endl
+          << L"8. Izdzēš no virknes visas pieturzīmes" << endl
+          << L"9. Saskaita un attēlo uz ekrāna cik katrs cipars atkārtojas tekstā." << endl;
 
     int ok = 1;
     do
@@ -81,6 +88,75 @@ int main()
             wcout << L"Programmas darbība pabeigta!" << endl;
             ok = 0;
             break;
+        case 7:
+        {
+            int shortest_length = INT_MAX;
+            for (int i = 0, curr_length = 0;
+                 i < str.length();
+                 ++i, ++curr_length)
+            {
+                if (str[i] == L' ')
+                {
+                    shortest_length = min(shortest_length, curr_length);
+                    curr_length = -1;
+                }
+                if(i == str.length() - 1 && ++curr_length != 0){
+                    shortest_length = min(shortest_length, curr_length);
+                }
+            }
+            for (int i = 0, curr_length = 0;
+                 i < str.length();
+                 ++i, ++curr_length)
+            {
+                if (str[i] == L' ')
+                {
+                    if(curr_length == shortest_length){
+                        for(int j = i - curr_length; j < i; ++j){
+                            wcout << str[j];
+                        }
+                        wcout << L" ";
+                    }
+                    curr_length = -1;
+                }
+                if(i == str.length() - 1 && ++curr_length != 0){
+                    if(curr_length == shortest_length){
+                        for(int j = i - curr_length + 1; j <= i; ++j){
+                            wcout << str[j];
+                        }
+                        wcout << L" ";
+                    }
+                }
+            }
+            wcout << endl;
+            break;
+        }
+        case 8:
+        {
+            set<wchar_t> punctuation({L'.', L',', L';', L'"', L'?', L'!', ':'});
+            for(int i = 0, len = str.length(); i < len; ++i){
+                if(punctuation.find(str[i]) == punctuation.end()){
+                    str.push_back(str[i]);
+                }
+                if(i + 1 == len){
+                    str.erase(0, len);
+                }
+            }
+            wcout << str << endl;
+            break;
+        }
+        case 9:
+        {
+            int arr[10]{};
+            for(int i = 0; i < str.length(); ++i){
+                if(str[i] >= L'0' && str[i] <= L'9'){
+                    ++arr[str[i] - L'0'];
+                }
+            }
+            for(int i = 0; i < 10; ++i){
+                wcout << i << L" - " << arr[i] << endl;
+            }
+            break;
+        }
         default:
             wcout << L"Ievadīt korektu vērtību!" << endl;
             break;
