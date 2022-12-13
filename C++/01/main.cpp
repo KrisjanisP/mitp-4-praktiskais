@@ -7,8 +7,8 @@
 #include <fcntl.h>
 
 using std::endl;
-using std::set;
 using std::min;
+using std::set;
 using std::wcin;
 using std::wcout;
 using std::wstring;
@@ -100,7 +100,8 @@ int main()
                     shortest_length = min(shortest_length, curr_length);
                     curr_length = -1;
                 }
-                if(i == str.length() - 1 && ++curr_length != 0){
+                if (i == str.length() - 1 && ++curr_length != 0)
+                {
                     shortest_length = min(shortest_length, curr_length);
                 }
             }
@@ -110,17 +111,22 @@ int main()
             {
                 if (str[i] == L' ')
                 {
-                    if(curr_length == shortest_length){
-                        for(int j = i - curr_length; j < i; ++j){
+                    if (curr_length == shortest_length)
+                    {
+                        for (int j = i - curr_length; j < i; ++j)
+                        {
                             wcout << str[j];
                         }
                         wcout << L" ";
                     }
                     curr_length = -1;
                 }
-                if(i == str.length() - 1 && ++curr_length != 0){
-                    if(curr_length == shortest_length){
-                        for(int j = i - curr_length + 1; j <= i; ++j){
+                if (i == str.length() - 1 && ++curr_length != 0)
+                {
+                    if (curr_length == shortest_length)
+                    {
+                        for (int j = i - curr_length + 1; j <= i; ++j)
+                        {
                             wcout << str[j];
                         }
                         wcout << L" ";
@@ -133,11 +139,14 @@ int main()
         case 8:
         {
             set<wchar_t> punctuation({L'.', L',', L';', L'"', L'?', L'!', ':'});
-            for(int i = 0, len = str.length(); i < len; ++i){
-                if(punctuation.find(str[i]) == punctuation.end()){
+            for (int i = 0, len = str.length(); i < len; ++i)
+            {
+                if (punctuation.find(str[i]) == punctuation.end())
+                {
                     str.push_back(str[i]);
                 }
-                if(i + 1 == len){
+                if (i + 1 == len)
+                {
                     str.erase(0, len);
                 }
             }
@@ -147,12 +156,15 @@ int main()
         case 9:
         {
             int arr[10]{};
-            for(int i = 0; i < str.length(); ++i){
-                if(str[i] >= L'0' && str[i] <= L'9'){
+            for (int i = 0; i < str.length(); ++i)
+            {
+                if (str[i] >= L'0' && str[i] <= L'9')
+                {
                     ++arr[str[i] - L'0'];
                 }
             }
-            for(int i = 0; i < 10; ++i){
+            for (int i = 0; i < 10; ++i)
+            {
                 wcout << i << L" - " << arr[i] << endl;
             }
             break;
