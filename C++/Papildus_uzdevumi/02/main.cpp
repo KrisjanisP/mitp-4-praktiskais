@@ -9,11 +9,11 @@
 #include <algorithm>
 
 using std::cin;
-using std::string;
-using std::setw;
 using std::cout;
 using std::endl;
 using std::max;
+using std::setw;
+using std::string;
 
 void firstTask()
 {
@@ -56,13 +56,17 @@ void thirdTask()
 {
     int n = 5;
     int matrix[n][n];
-    for(auto &i : matrix){
-        for(auto &j : i){
+    for (auto &i : matrix)
+    {
+        for (auto &j : i)
+        {
             cin >> j;
         }
     }
-    for(auto &i : matrix){
-        for(auto &j : i){
+    for (auto &i : matrix)
+    {
+        for (auto &j : i)
+        {
             cout << setw(3) << j;
         }
         cout << endl;
@@ -76,8 +80,10 @@ void fourthTask()
     string str;
     cin >> str;
     int res = 0;
-    for(auto &i : str){
-        if(i == 'a'){
+    for (auto &i : str)
+    {
+        if (i == 'a')
+        {
             ++res;
         }
     }
@@ -90,8 +96,10 @@ void fifthTask()
 {
     string str;
     cin >> str;
-    for(auto &i : str){
-        if(!(i >= 'a' && i <= 'z') && !(i >= 'A' && i <= 'Z')){
+    for (auto &i : str)
+    {
+        if (!(i >= 'a' && i <= 'z') && !(i >= 'A' && i <= 'Z'))
+        {
             cout << i;
         }
     }
