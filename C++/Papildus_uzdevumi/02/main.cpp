@@ -96,14 +96,24 @@ void fifthTask()
 {
     string str;
     cin >> str;
-    for (auto &i : str)
+    for (int i = 0, j = 0; i < str.length(); ++i, ++j)
     {
-        if (!(i >= 'a' && i <= 'z') && !(i >= 'A' && i <= 'Z'))
+        while (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z'))
         {
-            cout << i;
+            if(i++ == str.length()){
+                break;
+            }
+        }
+        if(i == str.length()){
+            str.erase(j, i - j - 1);
+            break;
+        }
+        str[j] = str[i];
+        if(i == str.length() - 1){
+            str.erase(j + 1, i - j);
         }
     }
-    cout << endl;
+    cout << str << endl;
 
     return;
 }
