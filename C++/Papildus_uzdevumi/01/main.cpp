@@ -8,8 +8,11 @@ using std::endl;
 
 bool isPrime(int &x)
 {
-    for (int i = 2; i * i <= x; ++i)
-    {
+    if(x <= 1){
+        return false;
+    }
+    
+    for (int i = 2; i * i <= x; ++i){
         if (!(x % i))
         {
             return false;
