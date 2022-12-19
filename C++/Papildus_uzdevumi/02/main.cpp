@@ -78,7 +78,8 @@ void thirdTask()
 void fourthTask()
 {
     string str;
-    cin >> str;
+    cin.ignore();
+    getline(cin, str);
     int res = 0;
     for (auto &i : str)
     {
@@ -95,24 +96,17 @@ void fourthTask()
 void fifthTask()
 {
     string str;
-    cin >> str;
-    for (int i = 0, j = 0; i < str.length(); ++i, ++j)
+    cin.ignore();
+    getline(cin, str);
+    string res = "";
+    for (const auto &i : str)
     {
-        while (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z'))
-        {
-            if(i++ == str.length()){
-                break;
-            }
+        if((i >= 'a' && i <= 'z') || (i>= 'A' && i <= 'Z')){
+            res.push_back(i);
         }
-        if(i == str.length()){
-            str.erase(j, i - j - 1);
-            break;
-        }
-        str[j] = str[i];
-        if(i == str.length() - 1){
-            str.erase(j + 1, i - j);
-        }
+        
     }
+    str = res;
     cout << str << endl;
 
     return;
