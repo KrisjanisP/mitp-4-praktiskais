@@ -20,7 +20,7 @@ bool isPrime(int &x)
 
     for (int i = 2; i * i <= x; ++i)
     {
-        if (!(x % i))
+        if (x % i == 0)
         {
             return false;
         }
@@ -31,16 +31,15 @@ bool isPrime(int &x)
 vector<bool> SieveOfEratosthenes(const int &len)
 {
     vector<bool> isPrime(len, 1);
-    isPrime[0] = isPrime[1] = true;
+    isPrime[0] = isPrime[1] = false;
 
     for (int i = 2; i * i <= len; ++i)
     {
-        if (isPrime[i])
+        if (!isPrime[i])
+            continue;
+        for (int j = i * i; j <= len; j += i)
         {
-            for (int j = i * i; j <= len; j += i)
-            {
-                isPrime[j] = false;
-            }
+            isPrime[j] = false;
         }
     }
 
@@ -242,6 +241,32 @@ void fourthTask()
     }
     cout << "Number with removed even digits is " << res << endl;
 
+    temp = x;
+    res = 0;
+    power = 1;
+    int leading_0_count = 0;
+    while (temp > 0)
+    {
+        if ((temp % 10) % 2)
+        {
+            res += (temp % 10) * power;
+            leading_0_count = -1;
+        }
+        ++leading_0_count;
+        power *= 10;
+        temp /= 10;
+    }
+    cout << "Number with 0's in the place of odd digits is ";
+    while (leading_0_count-- > 0)
+    {
+        cout << 0;
+    }
+    if (res)
+    {
+        cout << res;
+    }
+    cout << endl;
+
     return;
 }
 
@@ -268,7 +293,7 @@ void fifthTask()
         }
         cout << setw(4) << i;
         SetConsoleTextAttribute(hConsole, 15);
-        cout << setw(4) << "=" ;
+        cout << setw(4) << "=";
         SetConsoleTextAttribute(hConsole, 14);
         cout << setw(4) << number * i << endl;
         SetConsoleTextAttribute(hConsole, 15);
