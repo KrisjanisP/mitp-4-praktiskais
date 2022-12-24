@@ -1,4 +1,4 @@
-// g++ main.cpp; ./a.exe
+// PS > g++ main.cpp; ./a.exe
 
 // Izveidot C++ programmu, kura veic sekojošas darbības:
 // Attēlo lietotājam sekojošu izvēlni:
