@@ -30,12 +30,11 @@ int main()
     SetConsoleOutputCP(65001);
 
     cout << "1: Reverse string" << endl
-         << "2: Queue" << endl
-         << "3. Stack" << endl
-         << "4. Two stack (queue)" << endl
-         << "5. Set" << endl
-         << "6. Output numbers" << endl
-         << "7. End program" << endl;
+         << "2: Recursive sum" << endl
+         << "3. Overloading" << endl
+         << "4. Template " << endl
+         << "5. Calculator" << endl
+         << "6. End program" << endl;
 
     bool ok = true;
     do
@@ -89,3 +88,155 @@ double get_number(const string msg = "")
     return (input);
 }
 
+void first()
+{
+    cout << "Enter a string: ";
+    string str;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    getline(cin, str);
+    string ans = "";
+
+    for (auto i = str.rbegin(); i != str.rend(); ++i)
+    {
+        ans += *i;
+    }
+    cout << "Reversed string: " << ans << endl;
+
+    return;
+}
+
+int sum(int x)
+{
+    if (x)
+    {
+        return x + sum(x - 1);
+    }
+
+    return 0;
+}
+
+void second()
+{
+    int n = (int)get_number("Enter an integer: ");
+    cout << "Sum of numbers from 1 to " << n << ": " << sum(n) << endl;
+
+    return;
+}
+
+void print(const int &x)
+{
+    cout << "Integer: " << x << endl;
+    return;
+}
+
+void print(const double &x)
+{
+    cout << "Double: " << x << endl;
+    return;
+}
+
+void print(const string &x)
+{
+    cout << "String: " << x << endl;
+    return;
+}
+
+void print(const char &x)
+{
+    cout << "Char: " << x << endl;
+    return;
+}
+
+void third()
+{
+    int i = (int)get_number("Enter an integer: ");
+
+    double d = get_number("Enter a floating point number: ");
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter a string: ";
+    string s;
+    getline(cin, s);
+
+    cout << "Enter a char: ";
+    char c;
+    cin >> c;
+
+    print(i);
+    print(d);
+    print(s);
+    print(c);
+
+    return;
+}
+
+template <typename T>
+T Min(const T &a, const T &b)
+{
+    return (a < b ? a : b);
+}
+
+void fourth()
+{
+    int i = (int)get_number("Enter an integer: ");
+    int ii = (int)get_number("Enter an integer: ");
+
+    double d = get_number("Enter a floating point number: ");
+    double dd = get_number("Enter a floating point number: ");
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Enter a string: ";
+    string s;
+    getline(cin, s);
+    cout << "Enter a string: ";
+    string ss;
+    getline(cin, ss);
+
+    cout << "Enter a char: ";
+    char c;
+    cin >> c;
+    cout << "Enter a char: ";
+    char cc;
+    cin >> cc;
+
+    cout << "Smallest integer: " << Min(i, ii) << endl
+         << "Smallest floating point number: " << Min(d, dd) << endl
+         << "Smallest string: " << min(s, ss) << endl
+         << "Smallest char: " << min(c, cc) << endl;
+
+    return;
+}
+
+void fifth()
+{
+    cout << "Equation in format ([number] [+-*/] [number]): ";
+
+    double a, b;
+    a = get_number();
+    char op;
+    cin >> op;
+    b = get_number();
+
+    cout << "Result: ";
+    switch ((int)op)
+    {
+    case '+':
+        cout << a + b;
+        break;
+    case '-':
+        cout << a - b;
+        break;
+    case '*':
+        cout << a * b;
+        break;
+    case '/':
+        cout << a / b;
+        break;
+    default:
+        cout << "Unsupported operator";
+        break;
+    }
+    cout << endl;
+
+    return;
+}
