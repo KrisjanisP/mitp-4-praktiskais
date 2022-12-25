@@ -26,19 +26,33 @@
 // Izvēlnes programmā ir norealizētas, izmantojot switch. Visi case gadījumi ir jāapraksta, izmantojot enum tipu.
 // Programmas laikā nedrīkst izmantot globāli definētus mainīgos.
 
+// 1. Papildināt ar izvēlni - “map”, kura veic sekojošas darbības:
+// Ņem pa vienam skaitlim no vektora un lietotājam prasa ievadīt tā skaitļa tekstuālo vērtību, piemēram, 4 - cetri (bez mīkstinājuma burtiem) un pievieno to map sarakstā (skaitli kā atslēgu, tekstuālo kā vērtību). Tā tiek izdarīts visiem unikāliem skaitļiem vektorā
+// Pēc ievades, lietotājam prasa atrast kādu skaitli map sarakstā, ja ievadīto atrod, tad izdrukā uz ekrāna tā tekstuālo atspoguļojumu, ja nē - tad to paziņo lietotājam
+// Ja vienu reizi lietotājs ir aizpildījis jau kādam skaitlim tekstuālo vērtību, tad atkārtoti to neprasa. Pat tajā gadījumā, ja vektorā tiek ievadīti jauni skaitļi, kur kāds jau atrodas iekš map. Pēc jaunu skaitļu ievades vektorā, visi neaktuālie skaitļi (tādi, kuri ir map, bet vairs nav skaitļu vektorā) no map ir jāizdzēš laukā.
+// 2. Izveidot header failu, kurā ievietot visas funkcijas, kuras ir saistītas ar konteineriem. Funkcijām header failā ir jāatrodas namespace apgabalā MI_Utils. Pievienot header failu programmai un izmantot apgabala MI_Utils funkcijas galvenajā programmā.
+// 3. Izdomāt, kādu algoritmu - uzdevumu (kaut cik jēdzīgu), kurā tiktu izmantots “multiset”. Papildināt ar izvēlni
+
 #include <windows.h>
 #include <iostream>
 #include <limits>
 #include <vector>
 #include <queue>
 #include <stack>
+#include <map>
 #include <set>
+
+#define F first
+#define S second
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::flush;
+using std::greater;
+using std::map;
 using std::max;
+using std::multiset;
 using std::numeric_limits;
 using std::queue;
 using std::set;
@@ -47,15 +61,18 @@ using std::streamsize;
 using std::string;
 using std::vector;
 
-enum Number
+enum Digit
 {
-    one = 1,
-    two = 2,
-    three = 3,
-    four = 4,
-    five = 5,
-    six = 6,
-    seven = 7
+    zero,
+    one,
+    two,
+    three,
+    four,
+    five,
+    six,
+    seven,
+    eight,
+    nine
 };
 
 double get_number(const string msg);
@@ -65,6 +82,8 @@ void third(const vector<double> &vector);
 void fourth(const vector<double> &vector);
 void fifth(const vector<double> &vector);
 void sixth(const vector<double> &vector);
+void eighth(const vector<double> &vector);
+void ninth();
 
 int main()
 {
@@ -78,12 +97,14 @@ int main()
          << "4. Two stack (queue)" << endl
          << "5. Set" << endl
          << "6. Output numbers" << endl
-         << "7. End program" << endl;
+         << "7. End program" << endl
+         << "8. Map" << endl
+         << "9. Multiset" << endl;
 
     bool ok = true;
     do
     {
-        const Number choice = static_cast<Number>((int)get_number("Choice: "));
+        const Digit choice = static_cast<Digit>((int)get_number("Choice: "));
         switch (choice)
         {
         case one:
@@ -106,6 +127,14 @@ int main()
             break;
         case seven:
             ok = false;
+            break;
+        case eight:
+            eighth(vector);
+            break;
+        case nine:
+            ninth();
+            break;
+        default:
             break;
         }
     } while (ok);
@@ -137,7 +166,7 @@ double get_number(const string msg = "")
 
 void first(vector<double> &vector)
 {
-    int n = get_number("Enter vector size:");
+    int n = get_number("Enter vector size: ");
     vector.resize(n);
     cout << "Enter " << n << " numbers: ";
     for (auto &i : vector)
@@ -234,4 +263,101 @@ void sixth(const vector<double> &vector)
     cout << endl;
 
     return;
+}
+
+void eighth(const vector<double> &vector)
+{
+    static map<double, string> map;
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    for (const auto &i : vector)
+    {
+        if (map.find(i) == map.end())
+        {
+            cout << "Enter alias to use for vector value " << i << ": " << flush;
+            string temp;
+            getline(cin, temp);
+            map[i] = temp;
+        }
+    }
+
+    set<double> temp(vector.begin(), vector.end());
+    for (const auto &i : map)
+    {
+        if (temp.find(i.F) == temp.end())
+        {
+            map.erase(i.F);
+        }
+    }
+
+    int value = get_number("Enter value which alias to lookup: ");
+    if (map.find(value) != map.end())
+    {
+        cout << "Alias of value: " << map[value] << endl;
+    }
+    else
+    {
+        cout << "Alias of value not found!" << endl;
+    }
+
+    return;
+}
+
+void ninth()
+{
+    cout << "------------------------------------------------------------------------------------" << endl
+         << "This problem was taken from task fare_gatis (https://clevercode.lv/task/show/fare_gatis)." << endl
+         << "It allows getting overlapping area of rectangles after adding or removing them!" << endl
+         << "------------------------------------------------------------------------------------" << endl;
+
+    multiset<double, greater<double>> left_multiset, bottom_multiset;
+    multiset<double> right_multiset, top_multiset;
+    int operation_count = (int)get_number("Enter operation count: ");
+    cout << "Operations have to given in format [+-] [bottom left x y] [top right x y]!" << endl
+         << "Example: + 1 5 8 10" << endl;
+    for (int i = 1; i <= operation_count; ++i)
+    {
+        cout << "Operation " << i << ": ";
+        char operation;
+        cin >> operation;
+        double bottom = get_number(), left = get_number(), top = get_number(), right = get_number();
+        if (operation == '+')
+        {
+            left_multiset.insert(left);
+            bottom_multiset.insert(bottom);
+            right_multiset.insert(right);
+            top_multiset.insert(top);
+        }
+        else if (operation == '-')
+        {
+            if (left_multiset.find(left) == left_multiset.end() ||
+                bottom_multiset.find(bottom) == bottom_multiset.end() ||
+                right_multiset.find(right) == right_multiset.end() ||
+                top_multiset.find(top) == top_multiset.end())
+            {
+                cout << "Rectangle doesn't exist!" << endl;
+                --i;
+                continue;
+            }
+            else
+            {
+                left_multiset.erase(left_multiset.find(left));
+                bottom_multiset.erase(bottom_multiset.find(bottom));
+                right_multiset.erase(right_multiset.find(right));
+                top_multiset.erase(top_multiset.find(top));
+            }
+        }
+        else
+        {
+            cout << "Invalid operator!" << endl;
+            --i;
+            continue;
+        }
+
+        double l = *left_multiset.begin();
+        double b = *bottom_multiset.begin();
+        double r = *right_multiset.begin();
+        double t = *top_multiset.begin();
+        cout << "Overlapping size: " << (b >= t || l >= r ? 0 : (t - b) * (r - l)) << endl;
+    }
 }
