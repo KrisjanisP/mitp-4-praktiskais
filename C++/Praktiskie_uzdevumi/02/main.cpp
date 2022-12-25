@@ -38,15 +38,11 @@
 #include <limits>
 #include <vector>
 
-#define F first
-#define S second
-
 using std::cin;
 using std::cout;
 using std::endl;
 using std::numeric_limits;
 using std::streamsize;
-using std::string;
 using std::vector;
 
 enum Digit

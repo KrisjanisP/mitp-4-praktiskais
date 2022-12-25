@@ -1,5 +1,4 @@
 #include "header.hpp"
-#include <windows.h>
 #include <iostream>
 #include <limits>
 #include <vector>
