@@ -142,18 +142,21 @@ void thirdTask()
     {
         for (const auto &j : i)
         {
-            arr.push_back(j);
+            if ((int)j == j)
+            {
+                arr.push_back(j);
+            }
         }
     }
     sort(arr.begin(), arr.end());
-    cout << "5 Smallest elements in matrix: ";
+    cout << "5 Smallest round numbers in matrix: ";
     for (int i = 0; i < 5; ++i)
     {
         cout << arr[i] << " ";
     }
     cout << endl;
 
-    cout << "5 Smallest elements in matrix: ";
+    cout << "5 Biggest round numbers in matrix: ";
     for (int i = 0; i < 5; ++i)
     {
         cout << arr[arr.size() - i - 1] << " ";
@@ -196,6 +199,16 @@ void fourthTask()
         }
     }
     cout << "There are " << ans << " occurences of 'aa' in string." << endl;
+
+    cout << "Indexes of 'a' in string: ";
+    for (int i = 0; i < str.length(); ++i)
+    {
+        if (str[i] == 'a')
+        {
+            cout << i + 1 << " ";
+        }
+    }
+    cout << endl;
 
     string temp = "";
     for (const auto &i : str)
