@@ -34,8 +34,6 @@
 #include <stack>
 #include <set>
 
-#define SIZE 5
-
 using std::cin;
 using std::cout;
 using std::endl;
@@ -139,7 +137,9 @@ double get_number(const string msg = "")
 
 void first(vector<double> &vector)
 {
-    cout << "Enter " << SIZE << " numbers: " << endl;
+    int n = get_number("Enter vector size:");
+    vector.resize(n);
+    cout << "Enter " << n << " numbers: ";
     for (auto &i : vector)
     {
         i = get_number();
