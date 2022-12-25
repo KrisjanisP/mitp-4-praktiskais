@@ -234,7 +234,14 @@ void fifth()
         cout << a * b;
         break;
     case '/':
-        cout << a / b;
+        if (b)
+        {
+            cout << a / b;
+        }
+        else
+        {
+            cout << "Can't divide by 0";
+        }
         break;
     default:
         cout << "Unsupported operator";
