@@ -88,19 +88,23 @@ double get_number(const string msg = "")
     return (input);
 }
 
+string reverseString(const string &str)
+{
+    string ans = "";
+    for (auto i = str.rbegin(); i != str.rend(); ++i)
+    {
+        ans += *i;
+    }
+    return ans;
+}
+
 void first()
 {
     cout << "Enter a string: ";
     string str;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, str);
-    string ans = "";
-
-    for (auto i = str.rbegin(); i != str.rend(); ++i)
-    {
-        ans += *i;
-    }
-    cout << "Reversed string: " << ans << endl;
+    cout << "Reversed string: " << reverseString(str) << endl;
 
     return;
 }
