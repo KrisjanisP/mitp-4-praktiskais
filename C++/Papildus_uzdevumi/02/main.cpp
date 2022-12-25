@@ -137,26 +137,23 @@ void thirdTask()
     }
     cout << endl;
 
-    vector<int> arr;
+    vector<double> arr;
     for (auto &i : matrix)
     {
         for (const auto &j : i)
         {
-            if ((int)j == j)
-            {
-                arr.push_back(j);
-            }
+            arr.push_back(j);
         }
     }
     sort(arr.begin(), arr.end());
-    cout << "5 Smallest round numbers in matrix: ";
+    cout << "5 Smallest numbers in matrix: ";
     for (int i = 0; i < 5; ++i)
     {
         cout << arr[i] << " ";
     }
     cout << endl;
 
-    cout << "5 Biggest round numbers in matrix: ";
+    cout << "5 Biggest numbers in matrix: ";
     for (int i = 0; i < 5; ++i)
     {
         cout << arr[arr.size() - i - 1] << " ";
