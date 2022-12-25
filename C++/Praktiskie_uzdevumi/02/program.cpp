@@ -235,7 +235,7 @@ namespace MI_Utils
             }
             else
             {
-                cout << "Invalid operator!" << endl;
+                cout << "Invalid operation!" << endl;
                 --i;
                 continue;
             }

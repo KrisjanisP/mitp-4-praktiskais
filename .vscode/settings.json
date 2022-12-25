@@ -2,6 +2,14 @@
     "files.associations": {
         "*.cfg": "plaintext",
         "iostream": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "array": "cpp",
+        "memory_resource": "cpp",
+        "initializer_list": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "map": "cpp",
+        "stack": "cpp",
+        "vector": "cpp"
     }
 }
