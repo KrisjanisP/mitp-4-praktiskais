@@ -205,8 +205,8 @@ void fourth()
 
     cout << "Smallest integer: " << Min(i, ii) << endl
          << "Smallest floating point number: " << Min(d, dd) << endl
-         << "Smallest string: " << min(s, ss) << endl
-         << "Smallest char: " << min(c, cc) << endl;
+         << "Smallest string: " << Min(s, ss) << endl
+         << "Smallest char: " << Min(c, cc) << endl;
 
     return;
 }
