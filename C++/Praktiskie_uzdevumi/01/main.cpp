@@ -5,10 +5,13 @@
 #include <set>
 #include <io.h>
 #include <fcntl.h>
+#include <limits>
 
 using std::endl;
 using std::min;
+using std::numeric_limits;
 using std::set;
+using std::streamsize;
 using std::wcin;
 using std::wcout;
 using std::wstring;
@@ -48,7 +51,7 @@ int main()
         {
         case 1:
             wcout << L"Ievadīt virkni: ";
-            wcin.ignore();
+            wcin.ignore(numeric_limits<streamsize>::max(), '\n');
             fflush(stdin);
             getline(wcin, str);
             break;
