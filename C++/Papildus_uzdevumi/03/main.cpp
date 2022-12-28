@@ -7,6 +7,29 @@
 // Izveidot funkciju Min, kura atgriež minimālo elementu no 2 padotajiem. Datu tips var būt dažāds funkciju izmantojot.
 // Izveidot kalkulatoru. Programma lietotājam prasa ievadīt 2 skaitļus un operāciju. Atkarībā no perācijas (+, -, *,  /) izsauc atbilstošo funkciju un attēlo rezultātu.
 
+// 1.1. Lietotājs ievada vēl vienu virkni, kuru saglabā char masīvā. Izveidot jaunu funkciju, kas apgriež simbola virkni pretējā secībā (kā parametrs funkcijai tiek padots char masīvs).
+// 1.2-3. Izveidot izvēlni:
+//     1: Ievada string virkni
+//     2: Ievada char masīvu
+//     3: Reverse funkcija
+//     4: Izvadīt uz ekrānas virkni
+//     5: Beigt programmu
+// Piezīme: 3, 4 operācija tiek izpildīta ar to simbola virknes veidu, kura ir bijusi ievadīta pēdējā
+// 2.1. Izveidot rekursīvu funkciju, kura saskaita ievadītā skaitļa ciparu summu. Piemēram, ievadīt 35; rezultāts - 8 (3+5)
+// 2.2. Izveidot rekursīvu funkciju, kura pasaka cik ciparu ir ievadītajā skaitlī, Piemēram, 35; rezultārs - 2
+// 2.3. Izveidot izvēlni:
+//     1: Skaitļa ievade
+//     2: Summa
+//     3: Ciparu summa
+//     4: Cik cipari skaitlī
+//     5: Beigt darbu
+// 3.1. Sataisīt korektu izvēlni pēc līdzības iepriekšējiem uzdevumiem - lai lietotājs saprot, kas viņam ir jāievada un kas tiek izdrukāts
+// 3.2-3.3. Izveidot papildus Print funkcijas vektora (vector), saraksta (list), steka (stack) un rindas (queue) objektiem
+// 4.1. Izveidot tādu pašu realizāciju funkcijai Max
+// 4.2. Izveidot tādu pašu realizāciju funkcijai Avg (average - vidējā vērtība)
+// 4.3. Pielikt papildus objektu Vector, kurā lietotājs var ievadīt nenosakāmi daudz elementus. Arī uz šo Vector objektu var izsaukt Min, Max un Avg funkcijas
+// 5.1-3. Ir dota simbolu virne: “2+5*3-4”. Programmai jāaprēķina rezultāts. Lietotājam ir iespēja ievadīt simbola virkni arī programmas darbības laikā.
+
 #include <windows.h>
 #include <iostream>
 #include <limits>

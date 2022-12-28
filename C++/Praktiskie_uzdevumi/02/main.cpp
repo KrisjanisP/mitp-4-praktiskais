@@ -35,14 +35,11 @@
 
 #include "header.hpp"
 #include <iostream>
-#include <limits>
 #include <vector>
 
 using std::cin;
 using std::cout;
 using std::endl;
-using std::numeric_limits;
-using std::streamsize;
 using std::vector;
 
 enum Digit
