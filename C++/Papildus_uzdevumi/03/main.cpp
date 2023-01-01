@@ -30,13 +30,8 @@
 // 4.3. Pielikt papildus objektu Vector, kurā lietotājs var ievadīt nenosakāmi daudz elementus. Arī uz šo Vector objektu var izsaukt Min, Max un Avg funkcijas
 // 5.1-3. Ir dota simbolu virne: “2+5*3-4”. Programmai jāaprēķina rezultāts. Lietotājam ir iespēja ievadīt simbola virkni arī programmas darbības laikā.
 
+#include <bits/stdc++.h>
 #include <windows.h>
-#include <iostream>
-#include <limits>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <set>
 
 using namespace std;
 
@@ -121,13 +116,86 @@ string reverseString(const string &str)
     return ans;
 }
 
+char *reverseString(const char *str)
+{
+    const int LEN = strlen(str);
+    char *ans = new char[LEN + 1];
+    ans[LEN] = '\0';
+    for (int i = 0; str[i]; ++i)
+    {
+        ans[LEN - i - 1] = str[i];
+    }
+    return ans;
+}
+
 void first()
 {
-    cout << "Enter a string: ";
+    cout << " Enter a high level string: ";
     string str;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, str);
-    cout << "Reversed string: " << reverseString(str) << endl;
+    cout << " Reversed string: " << reverseString(str) << endl;
+
+    const int LEN = 10000;
+    cout << " Enter a low level string: ";
+    char *low_str = new char[LEN];
+    cin.getline(low_str, LEN);
+    cout << " Reversed string: " << (low_str = reverseString(low_str)) << endl;
+
+    cout << endl
+         << " 1: Enter string" << endl
+         << "2: Enter char array" << endl
+         << " 3. Reverse" << endl
+         << " 4. Print" << endl
+         << " 5. End" << endl
+         << endl;
+    bool ok = true, last_input = false;
+    do
+    {
+        const int choice = (int)get_number(" Choice: ");
+        switch (choice)
+        {
+        case 1:
+            cout << " Enter: ";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            getline(cin, str);
+            last_input = true;
+            break;
+        case 2:
+            cout << " Enter: ";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.getline(low_str, LEN);
+            last_input = false;
+            break;
+        case 3:
+            if (last_input)
+            {
+                str = reverseString(str);
+            }
+            else
+            {
+                low_str = reverseString(low_str);
+            }
+            break;
+        case 4:
+            if (last_input)
+            {
+                cout << " String: " << str << endl;
+            }
+            else
+            {
+                cout << " Char array: " << low_str << endl;
+            }
+            break;
+        case 5:
+            ok = false;
+            break;
+        default:
+            break;
+        }
+    } while (ok);
+
+    delete[] low_str;
 
     return;
 }
@@ -142,50 +210,139 @@ int sum(int x)
     return 0;
 }
 
+int digit_sum(int x)
+{
+    return x % 10 + (x ? digit_sum(x / 10) : 0);
+}
+
+int digit_count(int x)
+{
+    return 1 + (x ? digit_count(x / 10) : 0);
+}
+
 void second()
 {
-    int n = (int)get_number("Enter an integer: ");
-    cout << "Sum of numbers from 1 to " << n << ": " << sum(n) << endl;
+    int n = (int)get_number(" Enter an integer: ");
+    cout << " Sum of numbers from 1 to " << n << ": " << sum(n) << endl;
+
+    cout << endl
+         << " 1: Enter an integer" << endl
+         << " 2: Sum of numbers from 1 to integer" << endl
+         << " 3. Digit sum" << endl
+         << " 4. Digit count" << endl
+         << " 5. End" << endl
+         << endl;
+    bool ok = true;
+    do
+    {
+        const int choice = (int)get_number(" Choice: ");
+        switch (choice)
+        {
+        case 1:
+            n = (int)get_number(" Enter an integer: ");
+            break;
+        case 2:
+            cout << " Sum of numbers from 1 to " << n << ": " << sum(n) << endl;
+            break;
+        case 3:
+            cout << " Digit sum of n is " << digit_sum(n) << endl;
+            break;
+        case 4:
+            cout << " Digit count of n is " << digit_count(n) << endl;
+            break;
+        case 5:
+            ok = false;
+            break;
+        default:
+            break;
+        }
+    } while (ok);
 
     return;
 }
 
 void print(const int &x)
 {
-    cout << "Integer: " << x << endl;
+    cout << " Integer: " << x << endl;
     return;
 }
 
 void print(const double &x)
 {
-    cout << "Double: " << x << endl;
+    cout << " Double: " << x << endl;
     return;
 }
 
 void print(const string &x)
 {
-    cout << "String: " << x << endl;
+    cout << " String: " << x << endl;
     return;
 }
 
 void print(const char &x)
 {
-    cout << "Char: " << x << endl;
+    cout << " Char: " << x << endl;
+    return;
+}
+
+void print(const vector<int> &vector)
+{
+    cout << " Vector elements: ";
+    for (const auto &i : vector)
+    {
+        cout << i << " ";
+    }
+    cout << endl;
+    return;
+}
+
+void print(const list<int> &list)
+{
+    cout << " Linked list elements: ";
+    for (const auto &i : list)
+    {
+        cout << i << " ";
+    }
+    cout << endl;
+    return;
+}
+
+void print(stack<int> stack)
+{
+    cout << " Stack elements: ";
+    while (!stack.empty())
+    {
+        cout << stack.top() << " ";
+        stack.pop();
+    }
+    cout << endl;
+    return;
+}
+
+void print(queue<int> queue)
+{
+    cout << " Queue elements: ";
+    while (!queue.empty())
+    {
+        cout << queue.front() << " ";
+        queue.pop();
+    }
+    cout << endl;
     return;
 }
 
 void third()
 {
-    int i = (int)get_number("Enter an integer: ");
+    int i = (int)get_number(" Enter an integer: ");
 
-    double d = get_number("Enter a floating point number: ");
+    double d = get_number(" Enter a floating point number: ");
 
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout << "Enter a string: ";
+    cout << " Enter a string: ";
     string s;
     getline(cin, s);
 
-    cout << "Enter a char: ";
+    cout << " Enter a char: ";
     char c;
     cin >> c;
 
@@ -193,6 +350,75 @@ void third()
     print(d);
     print(s);
     print(c);
+
+    cout << endl
+         << " 1: Vector" << endl
+         << " 2: Linked list" << endl
+         << " 3. Stack" << endl
+         << " 4. Queue" << endl
+         << " 5. End" << endl
+         << endl;
+    bool ok = true;
+    do
+    {
+        const int choice = (int)get_number(" Choice: ");
+        switch (choice)
+        {
+        case 1:
+        {
+            int len = (int)get_number(" Vector size: ");
+            vector<int> vector(len);
+            cout << " Enter " << len << " integers: ";
+            for (auto &i : vector)
+            {
+                i = (int)get_number();
+            }
+            print(vector);
+            break;
+        }
+        case 2:
+        {
+            int len = (int)get_number(" Linked list size: ");
+            list<int> list(len);
+            cout << " Enter " << len << " integers: ";
+            for (auto &i : list)
+            {
+                i = (int)get_number();
+            }
+            print(list);
+            break;
+        }
+        case 3:
+        {
+            int len = (int)get_number(" Stack size: ");
+            stack<int> stack;
+            cout << " Enter " << len << " integers: ";
+            while (len--)
+            {
+                stack.push((int)get_number());
+            }
+            print(stack);
+            break;
+        }
+        case 4:
+        {
+            int len = (int)get_number(" Queue size: ");
+            queue<int> queue;
+            cout << " Enter " << len << " integers: ";
+            while (len--)
+            {
+                queue.push((int)get_number());
+            }
+            print(queue);
+            break;
+        }
+        case 5:
+            ok = false;
+            break;
+        default:
+            break;
+        }
+    } while (ok);
 
     return;
 }
@@ -203,33 +429,107 @@ T Min(const T &a, const T &b)
     return (a < b ? a : b);
 }
 
+template <typename T>
+T Max(const T &a, const T &b)
+{
+    return (a > b ? a : b);
+}
+
+template <typename T>
+double Avg(const T &a, const T &b)
+{
+    return (double)(a + b) / 2;
+}
+
+template <typename T>
+T Min(vector<T> &vector)
+{
+    if (vector.empty())
+    {
+        return MAXINT;
+    }
+    T lst = vector.back();
+    vector.pop_back();
+    T ans = Min(lst, Min(vector));
+    vector.push_back(lst);
+    return ans;
+}
+
+template <typename T>
+T Max(vector<T> &vector)
+{
+    if (vector.empty())
+    {
+        return MININT;
+    }
+    T lst = vector.back();
+    vector.pop_back();
+    T ans = Max(lst, Max(vector));
+    vector.push_back(lst);
+    return ans;
+}
+
+template <typename T>
+double Avg(vector<T> &vector)
+{
+    if (vector.empty())
+    {
+        return 0;
+    }
+    T lst = vector.back();
+    vector.pop_back();
+    double ans = (lst + Avg(vector) * vector.size()) / (vector.size() + 1);
+    vector.push_back(lst);
+    return ans;
+}
+
 void fourth()
 {
-    int i = (int)get_number("Enter an integer: ");
-    int ii = (int)get_number("Enter an integer: ");
+    int i = (int)get_number(" Enter an integer: ");
+    int ii = (int)get_number(" Enter an integer: ");
 
-    double d = get_number("Enter a floating point number: ");
-    double dd = get_number("Enter a floating point number: ");
+    double d = get_number(" Enter a floating point number: ");
+    double dd = get_number(" Enter a floating point number: ");
 
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout << "Enter a string: ";
+    cout << " Enter a string: ";
     string s;
     getline(cin, s);
-    cout << "Enter a string: ";
+    cout << " Enter a string: ";
     string ss;
     getline(cin, ss);
 
-    cout << "Enter a char: ";
+    cout << " Enter a char: ";
     char c;
     cin >> c;
-    cout << "Enter a char: ";
+    cout << " Enter a char: ";
     char cc;
     cin >> cc;
 
-    cout << "Smallest integer: " << Min(i, ii) << endl
-         << "Smallest floating point number: " << Min(d, dd) << endl
-         << "Smallest string: " << Min(s, ss) << endl
-         << "Smallest char: " << Min(c, cc) << endl;
+    cout << " Smallest integer: " << Min(i, ii) << endl
+         << " Smallest floating point number: " << Min(d, dd) << endl
+         << " Smallest string: " << Min(s, ss) << endl
+         << " Smallest char: " << Min(c, cc) << endl;
+
+    
+    const int len = (int)get_number(" Enter vector size: ");
+    vector<int> vector_d(len);
+    cout << " Enter " << len << " integers: ";
+    for (auto &i : vector_d)
+    {
+        i = get_number();
+    }
+    cout << " Smallest value: " << Min(vector_d) << endl
+         << " Average value: " << Avg(vector_d) << endl
+         << " Biggest value: " << Max(vector_d) << endl;
+    cout << " Enter " << len << " numbers: ";
+    for (auto &i : vector_d)
+    {
+        i = get_number();
+    }
+    cout << " Smallest value: " << Min(vector_d) << endl
+         << " Average value: " << Avg(vector_d) << endl
+         << " Biggest value: " << Max(vector_d) << endl;
 
     return;
 }
