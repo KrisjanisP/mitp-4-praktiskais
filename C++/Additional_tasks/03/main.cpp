@@ -712,7 +712,7 @@ void fifth()
 
     cout << " ---------------------------------------------------------------------------------" << endl;
     cout << " Program will evaluate simple equation by converting it to Reverse" << endl
-         << " Polish Notation using Shunting yard algorithm and then parsing it." << endl
+         << " Polish notation using Shunting yard algorithm and then parsing it." << endl
          << endl
          << " It won't be able to determine if expression is invalid!" << endl
          << " It won't work with negative numbers, but will work with floating points values!" << endl
