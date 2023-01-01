@@ -568,7 +568,7 @@ string shuntingYardAlgorithm(const string &equation)
                 ans = ans + op_stack.top() + ' ';
                 op_stack.pop();
 
-                // Invalid expresion
+                //! Invalid expresion
                 if (op_stack.empty())
                 {
                     return "0";
@@ -613,7 +613,7 @@ double evaluateReversePolishNotation(const string &equation)
                 ++j;
             }
 
-            //Invalid expression
+            //! Invalid expression
             try
             {
                 operand_stack.push(stod(equation.substr(i, j)));
@@ -627,6 +627,11 @@ double evaluateReversePolishNotation(const string &equation)
         }
         else
         {
+            //! Invalid expression
+            if (operand_stack.size() < 2)
+            {
+                return 0;
+            }
             double a, b, ab;
             b = operand_stack.top();
             operand_stack.pop();
@@ -651,7 +656,7 @@ double evaluateReversePolishNotation(const string &equation)
             }
             case '/':
             {
-                // Invalid expression
+                //! Invalid expression
                 if (b == 0)
                 {
                     return 0;
