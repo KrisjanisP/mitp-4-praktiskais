@@ -511,7 +511,6 @@ void fourth()
          << " Smallest string: " << Min(s, ss) << endl
          << " Smallest char: " << Min(c, cc) << endl;
 
-    
     const int len = (int)get_number(" Enter vector size: ");
     vector<int> vector_d(len);
     cout << " Enter " << len << " integers: ";
@@ -520,23 +519,162 @@ void fourth()
         i = get_number();
     }
     cout << " Smallest value: " << Min(vector_d) << endl
-         << " Average value: " << Avg(vector_d) << endl
-         << " Biggest value: " << Max(vector_d) << endl;
+         << " Biggest value: " << Max(vector_d) << endl
+         << " Average value: " << Avg(vector_d) << endl;
     cout << " Enter " << len << " numbers: ";
     for (auto &i : vector_d)
     {
-        i = get_number();
+        i = (int)get_number();
     }
     cout << " Smallest value: " << Min(vector_d) << endl
-         << " Average value: " << Avg(vector_d) << endl
-         << " Biggest value: " << Max(vector_d) << endl;
+         << " Biggest value: " << Max(vector_d) << endl
+         << " Average value: " << Avg(vector_d) << endl;
 
     return;
 }
 
+string shuntingYardAlgorithm(const string &equation)
+{
+    string ans = "";
+    map<char, int> op_precedence({{'+', 2}, {'-', 2}, {'*', 3}, {'/', 3}, {'^', 4}});
+    map<char, bool> op_associativity({{'+', 1}, {'-', 1}, {'*', 1}, {'/', 1}, {'^', 0}});
+    stack<char> op_stack;
+
+    for (auto i = equation.begin(); i != equation.end(); ++i)
+    {
+        if ((*i >= '0' && *i <= '9') || *i == '.')
+        {
+            while ((*i >= '0' && *i <= '9') || *i == '.')
+            {
+                ans.push_back(*i);
+                ++i;
+            }
+            ans.push_back(' ');
+
+            if (i == equation.end())
+            {
+                break;
+            }
+        }
+
+        if (*i == '(')
+        {
+            op_stack.push(*i);
+        }
+        else if (*i == ')')
+        {
+            while (op_stack.top() != '(')
+            {
+                ans = ans + op_stack.top() + ' ';
+                op_stack.pop();
+
+                // Invalid expresion
+                if (op_stack.empty())
+                {
+                    return "0";
+                }
+            }
+            op_stack.pop();
+        }
+        else if (op_precedence.count(*i))
+        {
+            while (!op_stack.empty() && (op_precedence[*i] < op_precedence[op_stack.top()] ||
+                                         (op_precedence[*i] == op_precedence[op_stack.top()] &&
+                                          op_associativity[*i])))
+            {
+                ans = ans + op_stack.top() + ' ';
+                op_stack.pop();
+            }
+            op_stack.push(*i);
+        }
+    }
+
+    while (!op_stack.empty())
+    {
+        ans = ans + op_stack.top() + ' ';
+        op_stack.pop();
+    }
+    ans.pop_back();
+
+    return ans;
+}
+
+double evaluateReversePolishNotation(const string &equation)
+{
+    stack<double> operand_stack;
+
+    for (int i = 0; equation[i]; i += 2)
+    {
+        if ((equation[i] >= '0' && equation[i] <= '9') || equation[i] == '.')
+        {
+            int j = 1;
+            while ((equation[i + j] >= '0' && equation[i + j] <= '9') || equation[i + j] == '.')
+            {
+                ++j;
+            }
+
+            //Invalid expression
+            try
+            {
+                operand_stack.push(stod(equation.substr(i, j)));
+            }
+            catch (invalid_argument)
+            {
+                return 0;
+            }
+
+            i += j - 1;
+        }
+        else
+        {
+            double a, b, ab;
+            b = operand_stack.top();
+            operand_stack.pop();
+            a = operand_stack.top();
+            operand_stack.pop();
+            switch ((int)equation[i])
+            {
+            case '+':
+            {
+                ab = a + b;
+                break;
+            }
+            case '-':
+            {
+                ab = a - b;
+                break;
+            }
+            case '*':
+            {
+                ab = a * b;
+                break;
+            }
+            case '/':
+            {
+                // Invalid expression
+                if (b == 0)
+                {
+                    return 0;
+                }
+                ab = a / b;
+                break;
+            }
+            case '^':
+            {
+                ab = pow(a, b);
+                break;
+            }
+            }
+            operand_stack.push(ab);
+        }
+    }
+
+    return operand_stack.top();
+}
+
 void fifth()
 {
-    cout << "Equation in format ([number] [+-*/] [number]): ";
+    cout << " Equation in format ([number] [+-*/] [number]): ";
 
     double a, b;
     a = get_number();
@@ -544,7 +682,7 @@ void fifth()
     cin >> op;
     b = get_number();
 
-    cout << "Result: ";
+    cout << " Result: ";
     switch ((int)op)
     {
     case '+':
@@ -563,14 +701,30 @@ void fifth()
         }
         else
         {
-            cout << "Can't divide by 0";
+            cout << " Can't divide by 0!";
         }
         break;
     default:
-        cout << "Unsupported operator";
+        cout << " Unsupported operator!";
         break;
     }
     cout << endl;
+
+    cout << " ---------------------------------------------------------------------------------" << endl;
+    cout << " Program will evaluate simple equation by converting it to Reverse" << endl
+         << " Polish Notation using Shunting yard algorithm and then parsing it." << endl
+         << endl
+         << " It won't be able to determine if expression is invalid!" << endl
+         << " It won't work with negative numbers, but will work with floating points values!" << endl
+         << endl
+         << " Enter an equation (Example: '3.5 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3'): ";
+    string equation;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    getline(cin, equation);
+    cout << " Equation in Reverse Polish notation: " << shuntingYardAlgorithm(equation) << endl;
+    cout << " Evaluation: " << evaluateReversePolishNotation(shuntingYardAlgorithm(equation)) << endl;
+
+    cout << " ---------------------------------------------------------------------------------" << endl;
 
     return;
 }
