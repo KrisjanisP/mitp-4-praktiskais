@@ -217,7 +217,7 @@ int digit_sum(int x)
 
 int digit_count(int x)
 {
-    return 1 + (x ? digit_count(x / 10) : 0);
+    return (x ? digit_count(x / 10) + 1 : 0);
 }
 
 void second()
