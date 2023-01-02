@@ -603,7 +603,7 @@ double evaluateReversePolishNotation(const string &equation)
 {
     stack<double> operand_stack;
 
-    for (int i = 0; equation[i]; i += 2)
+    for (int i = 0; i < equation.length(); i += 2)
     {
         if ((equation[i] >= '0' && equation[i] <= '9') || equation[i] == '.')
         {
@@ -620,7 +620,7 @@ double evaluateReversePolishNotation(const string &equation)
             }
             catch (invalid_argument)
             {
-                return 0;
+                return 1;
             }
 
             i += j - 1;
@@ -630,7 +630,7 @@ double evaluateReversePolishNotation(const string &equation)
             //! Invalid expression
             if (operand_stack.size() < 2)
             {
-                return 0;
+                return 2;
             }
             double a, b, ab;
             b = operand_stack.top();
@@ -659,7 +659,7 @@ double evaluateReversePolishNotation(const string &equation)
                 //! Invalid expression
                 if (b == 0)
                 {
-                    return 0;
+                    return 3;
                 }
                 ab = a / b;
                 break;
@@ -726,7 +726,7 @@ void fifth()
     string equation;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, equation);
-    cout << " Equation in Reverse Polish notation: " << shuntingYardAlgorithm(equation) << endl;
+    cout << " Equation in Reverse Polish notation: " << shuntingYardAlgorithm(equation) << "|" << endl;
     cout << " Evaluation: " << evaluateReversePolishNotation(shuntingYardAlgorithm(equation)) << endl;
 
     cout << " ---------------------------------------------------------------------------------" << endl;
