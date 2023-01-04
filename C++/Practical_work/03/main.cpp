@@ -20,6 +20,7 @@
 // Piezīme. Visas darbības tiek veiktas ar binārā failā ierakstītiem datiem (produkti).
 
 #include <bits/stdc++.h>
+#include <algorithm>
 
 #define NAME_LENGTH 20
 
@@ -72,6 +73,7 @@ public:
 
         fileIn.close();
     }
+
     ~Storage()
     {
         ofstream fileOut("storage.bin", ios::out | ios::binary);
@@ -108,27 +110,133 @@ public:
 
         return;
     }
+
     void print()
     {
+        // for (const auto i : data)
+        // {
+        //     cout << i.name << endl
+        //          << i.price << endl
+        //          << i.available << endl
+        //          << i.sold << endl
+        //          << "-----------" << endl;
+        // }
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+        cout << "|\tName\t\t|\tPrice\t\t|\tAvailable\t|\tSold\t\t|" << endl;
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
         for (const auto i : data)
         {
-            cout << i.name << endl
-                 << i.price << endl
-                 << i.available << endl
-                 << i.sold << endl
-                 << "-----------" << endl;
+            cout << "|\t" << i.name << "\t\t|\t" << i.price << "\t\t|\t" << i.available << "\t\t|\t" << i.sold << "\t\t|" << endl;
         }
-
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
         return;
     }
-    void sell() {}
-    void search() {}
+
+    void sell()
+    {
+        string name;
+        cout << "Product name: ";
+        cin >> name;
+        int index = -1;
+        for (int i = 0; i < data.size(); i++)
+        {
+            if (data[i].name == name)
+            {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1)
+        {
+            cout << "There is not such product." << endl;
+            return;
+        }
+        //
+        int sell;
+        cout << "Available quantity: " << data[index].available << endl;
+        cout << "How many do you want to sell: " << endl;
+        cin >> sell;
+        if (sell > data[index].available)
+        {
+            cout << "There are not enough available " << data[index].name << " items." << endl;
+            return;
+        }
+        data[index].available -= sell;
+        data[index].sold += sell;
+    }
+
+    void search()
+    {
+        string name;
+        cout << "Product name: ";
+        cin >> name;
+        int index = -1;
+        for (int i = 0; i < data.size(); i++)
+        {
+            if (data[i].name == name)
+            {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1)
+        {
+            cout << "There is not such product." << endl;
+            return;
+        }
+
+        cout << "Price: " << data[index].price << endl;
+        cout << "Available: " << data[index].available << endl;
+        cout << "Sold: " << data[index].sold << endl;
+    }
+
     void mostSold() {}
-    void leastSold() {}
-    void mostEarned() {}
+
+    void leastSold()
+    {
+        sort(data.begin(), data.end(), [](Product a, Product b)
+             { return a.sold < b.sold; });
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+        cout << "| # |\tName\t\t|\tPrice\t\t|\tAvailable\t|\tSold\t\t|" << endl;
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+        for (int i = 0; i < 3; i++)
+        {
+            cout << "| " << i + 1 << " |\t" << data[i].name << "\t\t|\t" << data[i].price << "\t\t|\t" << data[i].available << "\t\t|\t" << data[i].sold << "\t\t|" << endl;
+        }
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+    }
+
+    void mostEarned()
+    {
+        sort(data.begin(), data.end(), [](Product a, Product b)
+             { return double(a.sold) * a.price > double(b.sold) * b.price; });
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+        cout << "| # |\tName\t\t|\tPrice\t\t|\tAvailable\t|\tSold\t\t|" << endl;
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+        for (int i = 0; i < 3; i++)
+        {
+            cout << "| " << i + 1 << " |\t" << data[i].name << "\t\t|\t" << data[i].price << "\t\t|\t" << data[i].available << "\t\t|\t" << data[i].sold << "\t\t|" << endl;
+        }
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+    }
+
     void leastEarned() {}
+
     void mostExpensive() {}
-    void mostCheap() {}
+
+    void mostCheap()
+    {
+        sort(data.begin(), data.end(), [](Product a, Product b)
+             { return a.price < b.price; });
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+        cout << "| # |\tName\t\t|\tPrice\t\t|\tAvailable\t|\tSold\t\t|" << endl;
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+        for (int i = 0; i < 3; i++)
+        {
+            cout << "| " << i + 1 << " |\t" << data[i].name << "\t\t|\t" << data[i].price << "\t\t|\t" << data[i].available << "\t\t|\t" << data[i].sold << "\t\t|" << endl;
+        }
+        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+    }
 
     int menu()
     {
@@ -163,26 +271,34 @@ int main()
         switch (op - 1)
         {
         case (Input):
-        {
             storage.add();
             break;
-        }
         case (Output):
-        {
             storage.print();
             break;
-        }
         case (Sell):
+            storage.sell();
             break;
         case (Search):
+            storage.search();
             break;
         case (MostSold):
+            storage.mostSold();
+            break;
+        case (LeastSold):
+            storage.leastSold();
+            break;
+        case (MostEarned):
+            storage.mostEarned();
             break;
         case (LeastEarned):
+            storage.leastEarned();
             break;
         case (MostExpensive):
+            storage.mostExpensive();
             break;
         case (MostCheap):
+            storage.mostCheap();
             break;
         case (End):
             return 0;
