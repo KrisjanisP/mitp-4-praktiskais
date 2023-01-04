@@ -1,7 +1,28 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
+// PS > g++ main.cpp program.cpp; ./a.exe
+
+// Izveidot C++ programmu, kura attaino noliktavas programmatūras funkcijas:
+// Datu ievade (tiek papildināts produkts ar skaitu; ja nav tāda produkta, tad ievietots): X1
+// Visu datu izvade (izvada visus produktus uz ekrāna): X1
+// Produktu pārdošana (samazina attiecīgo skaitu; ja nav tāda vai nav ko pārdot - paziņo lietotājam): X2
+// Izvada konkrēti datus par vienu produktu uz ekrāna (atrod pēc vārda): X2
+// Izdrukāt uz ekrāna Top3 visvairāk iztirgotos produktus: X1
+// Izdrukāt uz ekrāna Top3 vismazāk iztirgotos produktus: X2
+// Izdrukāt uz ekrāna Top3 tos produktus par kuriem ir visvairāk nopelnīts: X2
+// Izdrukāt uz ekrāna Top3 tos produktus par kuriem ir vismazāk nopelnīts: X1
+// Izdrukāt uz ekrāna Top3 visdārgākos produktus: X1
+// Izdrukāt uz ekrāna Top3 vislētākos produktus: X2
+	
+// Produkti satur sekojošu informāciju: (X1)
+// Nosaukums
+// Cena
+// Pieejamais produktu skaits
+// Pārdotais produktu skaits
+
+// Jānorealizē arī atbilstošas izvēlnes, lai lietotājam ir ērti darboties ar programmu. X2
+
+// Piezīme. Visas darbības tiek veiktas ar binārā failā ierakstītiem datiem (produkti). 
+
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -47,22 +68,22 @@ class Storage{
         void mostCheap(){}
 
         int menu(){
-            cout << "/////" << endl;
-            cout << "Izvelejaties opciju:" << endl;
-            cout << "1 - Papildināt" << endl;
-            cout << "2 - Izvadīt visas preces" << endl;
-            cout << "3 - Pārdot preces" << endl;
-            cout << "4 - Meklēt preci" << endl;
-            cout << "5 - Top3 visvairāk iztirgotos produkti" << endl;
-            cout << "6 - Top3 vismazāk iztirgotos produkti" << endl;
-            cout << "7 - Top3 tie produkti, par kuriem ir visvairāk nopelnīts" << endl;
-            cout << "8 - Top3 tie produkti, par kuriem ir vismazāk nopelnīts" << endl;
-            cout << "9 - Top3 visdārgākie produkti" << endl;
-            cout << "10 - Top3 vislētākie produkti" << endl;
-            cout << "11 - Top3 beigt darbību" << endl;
-            cout << "/////" << endl;
+            cout << "------------------------------------------" << endl;
+            cout << "Choose option:" << endl;
+            cout << "1 - Add product" << endl;
+            cout << "2 - Output all products" << endl;
+            cout << "3 - Sell products" << endl;
+            cout << "4 - Search product" << endl;
+            cout << "5 - Most sold product Top 3" << endl;
+            cout << "6 - Least sold product Top 3" << endl;
+            cout << "7 - Most profitable product Top 3" << endl;
+            cout << "8 - Least profitable product Top 3" << endl;
+            cout << "9 - Most expensive product Top 3" << endl;
+            cout << "10 - Least expensive product Top 3" << endl;
+            cout << "11 - Stop execution" << endl;
+            cout << "------------------------------------------" << endl;
             int op;
-            cout << "Jūsu opcija: ";
+            cout << "Choice: ";
             cin >> op;
             return op;
         }
@@ -93,7 +114,7 @@ int main(){
             case(End):
                 return 0;
             default:
-                cout << "Nav tadas opcijas, lūdzu, izvelējaties citu." << endl;
+                cout << "Invalid option!" << endl;
         }
     }
 }
