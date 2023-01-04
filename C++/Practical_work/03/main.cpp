@@ -11,18 +11,17 @@
 // Izdrukāt uz ekrāna Top3 tos produktus par kuriem ir vismazāk nopelnīts: X1
 // Izdrukāt uz ekrāna Top3 visdārgākos produktus: X1
 // Izdrukāt uz ekrāna Top3 vislētākos produktus: X2
-
 // Produkti satur sekojošu informāciju: (X1)
 // Nosaukums
 // Cena
 // Pieejamais produktu skaits
 // Pārdotais produktu skaits
-
 // Jānorealizē arī atbilstošas izvēlnes, lai lietotājam ir ērti darboties ar programmu. X2
-
 // Piezīme. Visas darbības tiek veiktas ar binārā failā ierakstītiem datiem (produkti).
 
 #include <bits/stdc++.h>
+
+#define NAME_LENGTH 20
 
 using namespace std;
 
@@ -41,9 +40,9 @@ enum eOptions
     End
 };
 
-struct item
+struct Product
 {
-    string name;
+    char name[NAME_LENGTH + 1];
     double price;
     int available;
     int sold;
@@ -52,15 +51,76 @@ struct item
 class Storage
 {
 private:
-    vector<item> data;
-    fstream file;
+    vector<Product> data;
 
 public:
-    Storage() {}
-    virtual ~Storage() {}
+    Storage()
+    {
+        ifstream fileIn;
+        fileIn.open("storage.bin", ios::in | ios::binary);
 
-    void add() {}
-    void print() {}
+        if (fileIn.is_open())
+        {
+            size_t size;
+            fileIn.read((char *)&size, sizeof(size));
+
+            data.resize(size);
+            fileIn.read((char *)&data[0], size * sizeof(Product));
+
+            cout << "Opened " << size << " product(s) from file!" << endl;
+        }
+
+        fileIn.close();
+    }
+    ~Storage()
+    {
+        ofstream fileOut("storage.bin", ios::out | ios::binary);
+
+        size_t size = data.size();
+        fileOut.write((char *)&size, sizeof(size));
+
+        fileOut.write((char *)&data[0], data.size() * sizeof(Product));
+
+        fileOut.close();
+
+        cout << "Saved " << size << " product(s) to file!" << endl;
+    }
+
+    void add()
+    {
+        Product product;
+
+        cout << "Enter product details: " << endl
+             << "Name: ";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.getline(product.name, NAME_LENGTH);
+
+        cout << "Price: ";
+        cin >> product.price;
+
+        cout << "Available quantity: ";
+        cin >> product.available;
+
+        cout << "Sold quantity: ";
+        cin >> product.sold;
+
+        data.push_back(product);
+
+        return;
+    }
+    void print()
+    {
+        for (const auto i : data)
+        {
+            cout << i.name << endl
+                 << i.price << endl
+                 << i.available << endl
+                 << i.sold << endl
+                 << "-----------" << endl;
+        }
+
+        return;
+    }
     void sell() {}
     void search() {}
     void mostSold() {}
@@ -103,9 +163,15 @@ int main()
         switch (op - 1)
         {
         case (Input):
+        {
+            storage.add();
             break;
+        }
         case (Output):
+        {
+            storage.print();
             break;
+        }
         case (Sell):
             break;
         case (Search):
@@ -124,4 +190,6 @@ int main()
             cout << "Invalid option!" << endl;
         }
     }
+
+    return 0;
 }
