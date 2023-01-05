@@ -1,4 +1,4 @@
-// PS > g++ main.cpp program.cpp; ./a.exe
+// PS > g++ main.cpp; ./a.exe
 
 // Izveidot C++ programmu, kura attaino noliktavas programmatūras funkcijas:
 // Datu ievade (tiek papildināts produkts ar skaitu; ja nav tāda produkta, tad ievietots): X1
@@ -20,7 +20,6 @@
 // Piezīme. Visas darbības tiek veiktas ar binārā failā ierakstītiem datiem (produkti).
 
 #include <bits/stdc++.h>
-#include <algorithm>
 
 #define NAME_LENGTH 20
 
@@ -53,6 +52,22 @@ class Storage
 {
 private:
     vector<Product> data;
+
+    void printTop3Table()
+    {
+        cout << "|----------------------------------------------------------|" << endl;
+        cout << "| # |" << setw(12) << "Name" << setw(8) << "|" << setw(8) << "Price" << setw(4) << "|" << setw(11) << "Available" << setw(3) << "|" << setw(6) << "Sold" << setw(3) << "|" << endl;
+        cout << "|----------------------------------------------------------|" << endl;
+
+        for (int i = 0; i < data.size() && i < 3; ++i)
+        {
+            cout << "| " << i + 1 << " | " << setw(18) << left << data[i].name << "| " << setw(10) << left << data[i].price << "| " << setw(12) << left << data[i].available << "| " << setw(7) << left << data[i].sold << "|" << right << endl;
+        }
+
+        cout << "|----------------------------------------------------------|" << endl;
+
+        return;
+    }
 
 public:
     Storage()
@@ -90,45 +105,62 @@ public:
 
     void add()
     {
-        Product product;
+        string productName;
 
-        cout << "Enter product details: " << endl
+        cout << "Choose product to restock: " << endl
              << "Name: ";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cin.getline(product.name, NAME_LENGTH);
+        getline(cin, productName);
 
-        cout << "Price: ";
-        cin >> product.price;
+        auto elementPos = find_if(data.begin(), data.end(), [&productName](const Product i)
+                                  { return (i.name == productName); });
 
-        cout << "Available quantity: ";
-        cin >> product.available;
+        if (elementPos != data.end())
+        {
+            cout << "Amount to increment quantity by:";
 
-        cout << "Sold quantity: ";
-        cin >> product.sold;
+            int temp;
+            cin >> temp;
 
-        data.push_back(product);
+            (*elementPos).available += temp;
+        }
+        else
+        {
+            cout << "Product not found. New product will be added." << endl
+                 << "Enter the details: " << endl;
+
+            Product product;
+            
+            strcpy(product.name, productName.c_str());
+
+            cout << "Price: ";
+            cin >> product.price;
+
+            cout << "Available quantity: ";
+            cin >> product.available;
+
+            cout << "Sold quantity: ";
+            cin >> product.sold;
+
+            data.push_back(product);
+        }
 
         return;
     }
 
     void print()
     {
-        // for (const auto i : data)
-        // {
-        //     cout << i.name << endl
-        //          << i.price << endl
-        //          << i.available << endl
-        //          << i.sold << endl
-        //          << "-----------" << endl;
-        // }
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-        cout << "|\tName\t\t|\tPrice\t\t|\tAvailable\t|\tSold\t\t|" << endl;
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-        for (const auto i : data)
+        cout << "|------------------------------------------------------|" << endl;
+        cout << "|" << setw(12) << "Name" << setw(8) << "|" << setw(8) << "Price" << setw(4) << "|" << setw(11) << "Available" << setw(3) << "|" << setw(6) << "Sold" << setw(3) << "|" << endl;
+        cout << "|------------------------------------------------------|" << endl;
+
+        for (const auto &i : data)
         {
-            cout << "|\t" << i.name << "\t\t|\t" << i.price << "\t\t|\t" << i.available << "\t\t|\t" << i.sold << "\t\t|" << endl;
+            cout << "| " << setw(18) << left << i.name << "| " << setw(10) << left << i.price << "| " << setw(12) << left << i.available << "|" << setw(8) << left << i.sold << "|" << right << endl;
         }
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+
+        cout << "|------------------------------------------------------|" << endl;
+
         return;
     }
 
@@ -190,7 +222,15 @@ public:
         cout << "Sold: " << data[index].sold << endl;
     }
 
-    void mostSold() {}
+    void mostSold()
+    {
+        sort(data.begin(), data.end(), [](const Product &a, const Product &b)
+             { return a.sold > b.sold; });
+
+        printTop3Table();
+
+        return;
+    }
 
     void leastSold()
     {
@@ -220,9 +260,25 @@ public:
         cout << "|-----------------------------------------------------------------------------------------------|" << endl;
     }
 
-    void leastEarned() {}
+    void leastEarned()
+    {
+        sort(data.begin(), data.end(), [](const Product &a, const Product &b)
+             { return a.sold * a.price < b.sold * b.price; });
 
-    void mostExpensive() {}
+        printTop3Table();
+
+        return;
+    }
+
+    void mostExpensive()
+    {
+        sort(data.begin(), data.end(), [](const Product &a, const Product &b)
+             { return a.price > b.price; });
+
+        printTop3Table();
+
+        return;
+    }
 
     void mostCheap()
     {
