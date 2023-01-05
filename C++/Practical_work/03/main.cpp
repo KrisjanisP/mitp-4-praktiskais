@@ -139,13 +139,10 @@ public:
             cout << "Available quantity: ";
             cin >> product.available;
 
-            cout << "Sold quantity: ";
-            cin >> product.sold;
+            product.sold = 0;
 
             data.push_back(product);
         }
-
-        return;
     }
 
     void print()
@@ -160,8 +157,6 @@ public:
         }
 
         cout << "|------------------------------------------------------|" << endl;
-
-        return;
     }
 
     void sell()
@@ -228,8 +223,6 @@ public:
              { return a.sold > b.sold; });
 
         printTop3Table();
-
-        return;
     }
 
     void leastSold()
@@ -254,8 +247,6 @@ public:
              { return a.sold * a.price < b.sold * b.price; });
 
         printTop3Table();
-
-        return;
     }
 
     void mostExpensive()
@@ -264,8 +255,6 @@ public:
              { return a.price > b.price; });
 
         printTop3Table();
-
-        return;
     }
 
     void mostCheap()
