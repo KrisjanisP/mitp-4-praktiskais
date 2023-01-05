@@ -130,7 +130,7 @@ public:
                  << "Enter the details: " << endl;
 
             Product product;
-            
+
             strcpy(product.name, productName.c_str());
 
             cout << "Price: ";
@@ -236,28 +236,16 @@ public:
     {
         sort(data.begin(), data.end(), [](Product a, Product b)
              { return a.sold < b.sold; });
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-        cout << "| # |\tName\t\t|\tPrice\t\t|\tAvailable\t|\tSold\t\t|" << endl;
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-        for (int i = 0; i < 3; i++)
-        {
-            cout << "| " << i + 1 << " |\t" << data[i].name << "\t\t|\t" << data[i].price << "\t\t|\t" << data[i].available << "\t\t|\t" << data[i].sold << "\t\t|" << endl;
-        }
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+
+        printTop3Table();
     }
 
     void mostEarned()
     {
         sort(data.begin(), data.end(), [](Product a, Product b)
              { return double(a.sold) * a.price > double(b.sold) * b.price; });
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-        cout << "| # |\tName\t\t|\tPrice\t\t|\tAvailable\t|\tSold\t\t|" << endl;
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-        for (int i = 0; i < 3; i++)
-        {
-            cout << "| " << i + 1 << " |\t" << data[i].name << "\t\t|\t" << data[i].price << "\t\t|\t" << data[i].available << "\t\t|\t" << data[i].sold << "\t\t|" << endl;
-        }
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+
+        printTop3Table();
     }
 
     void leastEarned()
@@ -284,14 +272,8 @@ public:
     {
         sort(data.begin(), data.end(), [](Product a, Product b)
              { return a.price < b.price; });
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-        cout << "| # |\tName\t\t|\tPrice\t\t|\tAvailable\t|\tSold\t\t|" << endl;
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-        for (int i = 0; i < 3; i++)
-        {
-            cout << "| " << i + 1 << " |\t" << data[i].name << "\t\t|\t" << data[i].price << "\t\t|\t" << data[i].available << "\t\t|\t" << data[i].sold << "\t\t|" << endl;
-        }
-        cout << "|-----------------------------------------------------------------------------------------------|" << endl;
+
+        printTop3Table();
     }
 
     int menu()
