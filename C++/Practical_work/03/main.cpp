@@ -276,7 +276,32 @@ public:
     void random()
     {
         cout << "Enter product quanitity: ";
-        
+        int quanitity;
+        cin >> quanitity;
+
+        int count = 0;
+        for (auto &i : data)
+        {
+            if (i.available >= quanitity)
+            {
+                ++count;
+
+                cout << "Sell [" << quanitity << "] units of [" << i.name << "] (y/n): ";
+                char choice;
+                cin >> choice;
+
+                if (choice == 'y')
+                {
+                    i.available -= quanitity;
+                    i.sold += quanitity;
+                    cout << "Units sold!" << endl;
+
+                    return;
+                }
+            }
+        }
+
+        cout << "No " << (count ? "more ": "") << "products match the query!" << endl;
     }
 
     int menu()
