@@ -18,6 +18,9 @@
 // Pārdotais produktu skaits
 // Jānorealizē arī atbilstošas izvēlnes, lai lietotājam ir ērti darboties ar programmu. X2
 // Piezīme. Visas darbības tiek veiktas ar binārā failā ierakstītiem datiem (produkti).
+// 1-3. Izveidot jaunu izvēlni: Random produkts
+// Izvēloties šo izvēlni - programma lietotājam prasa ievadīt daudzumu. Pēc ievadītā daudzuma atrod tos produktus, kas ir pieejami (ja nav, tad paziņo lietotājam).
+// No atrastiem produktiem piedāvā vienu lietotājam. Ja lietotājs nevēlas šo produktu, tad piedāvā nākamo. Ja lietotājs kādu izvēlas, tad - šo daudzumu pārdod lietotājam (attiecīgi samazina daudzuma skaitu un palielina pārdoto skaitu). Ja lietotājs neizvēlas nevienu, tad beigās paziņo, ka šāda daudzuma produkti nav pieejami
 
 #include <algorithm>
 #include <iostream>
@@ -43,6 +46,7 @@ enum eOptions
     LeastEarned,
     MostExpensive,
     MostCheap,
+    Random,
     End
 };
 
@@ -269,6 +273,12 @@ public:
         printTop3Table();
     }
 
+    void random()
+    {
+        cout << "Enter product quanitity: ";
+        
+    }
+
     int menu()
     {
         cout << "------------------------------------------" << endl;
@@ -283,7 +293,8 @@ public:
         cout << "8 - Least profitable product Top 3" << endl;
         cout << "9 - Most expensive product Top 3" << endl;
         cout << "10 - Least expensive product Top 3" << endl;
-        cout << "11 - Stop execution" << endl;
+        cout << "11 - Random product" << endl;
+        cout << "12 - Stop execution" << endl;
         cout << "------------------------------------------" << endl;
         int op;
         cout << "Choice: ";
@@ -296,7 +307,7 @@ int main()
 {
     Storage storage;
     int op = 0;
-    while (op != 11)
+    while (op != 12)
     {
         op = storage.menu();
         switch (op - 1)
@@ -330,6 +341,8 @@ int main()
             break;
         case (MostCheap):
             storage.mostCheap();
+        case (Random):
+            storage.random();
             break;
         case (End):
             return 0;
