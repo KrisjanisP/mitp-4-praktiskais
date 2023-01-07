@@ -19,7 +19,13 @@
 // Jānorealizē arī atbilstošas izvēlnes, lai lietotājam ir ērti darboties ar programmu. X2
 // Piezīme. Visas darbības tiek veiktas ar binārā failā ierakstītiem datiem (produkti).
 
-#include <bits/stdc++.h>
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <cstring>
+#include <vector>
+#include <limits>
 
 #define NAME_LENGTH 20
 
@@ -65,8 +71,6 @@ private:
         }
 
         cout << "|----------------------------------------------------------|" << endl;
-
-        return;
     }
 
 public:
