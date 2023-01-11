@@ -1,0 +1,5 @@
+The syntx highlighting engine hs been significntly improved, with new fetures like hndling non-deterministic grmmrs, multi-line constructs, lzy embeds nd syntx inheritnce.
+Memory usge hs been reduced, nd lod times re fster thn ever.
+Et snck.
+Write code.
+Et snck.
