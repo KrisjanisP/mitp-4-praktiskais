@@ -47,6 +47,7 @@ enum eOptions
     MostExpensive,
     MostCheap,
     Random,
+    Sum,
     End
 };
 
@@ -301,7 +302,46 @@ public:
             }
         }
 
-        cout << "No " << (count ? "more ": "") << "products match the query!" << endl;
+        cout << "No " << (count ? "more " : "") << "products match the query!" << endl;
+    }
+
+    void sum()
+    {
+        double money;
+        cout << "Enter the maximum amount of money available: ";
+        cin >> money;
+
+        int count = 0;
+        int quantity;
+        for (auto &i : data)
+        {
+            if (i.price <= money)
+            {
+                count++;
+                for (quantity = 1; (double(quantity) * i.price <= money) && (quantity <= i.available); quantity++)
+                {
+                }
+                quantity--;
+                if (quantity == 0)
+                {
+                    continue;
+                }
+                cout << "Sell [" << quantity << "] units of [" << i.name << "] for [" << i.price * double(quantity) << "] (y/n): ";
+                char choice;
+                cin >> choice;
+
+                if (choice == 'y')
+                {
+                    i.available -= quantity;
+                    i.sold += quantity;
+                    cout << "Units sold! New balance: " << money - i.price * double(quantity) << endl;
+
+                    return;
+                }
+            }
+        }
+
+        cout << "No " << (count ? "more " : "") << "products match the query!" << endl;
     }
 
     int menu()
@@ -319,7 +359,8 @@ public:
         cout << "9 - Most expensive product Top 3" << endl;
         cout << "10 - Least expensive product Top 3" << endl;
         cout << "11 - Random product" << endl;
-        cout << "12 - Stop execution" << endl;
+        cout << "12 - Max sum" << endl;
+        cout << "13 - Stop execution" << endl;
         cout << "------------------------------------------" << endl;
         int op;
         cout << "Choice: ";
@@ -332,7 +373,7 @@ int main()
 {
     Storage storage;
     int op = 0;
-    while (op != 12)
+    while (op != 13)
     {
         op = storage.menu();
         switch (op - 1)
@@ -366,8 +407,12 @@ int main()
             break;
         case (MostCheap):
             storage.mostCheap();
+            break;
         case (Random):
             storage.random();
+            break;
+        case (Sum):
+            storage.sum();
             break;
         case (End):
             return 0;
