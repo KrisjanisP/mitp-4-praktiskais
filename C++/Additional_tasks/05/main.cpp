@@ -96,10 +96,12 @@ double getNumber(const string msg = "")
 void first()
 {
     cout << "Enter two numbers: ";
-    double *a = new double, *b = new double;
-    cin >> *a >> *b;
+    double *numA = new double, *numB = new double;
+    cin >> *numA >> *numB;
 
-    cout << "Sum: " << *a + *b << endl;
+    cout << "Sum: " << *numA + *numB << endl;
+
+    delete numA, numB;
 }
 
 void second()
@@ -122,6 +124,8 @@ void second()
 
     if (!*found)
         cout << "Number not found in array!" << endl;
+
+    delete find, found;
 }
 
 void third()
@@ -139,6 +143,8 @@ void third()
     }
 
     cout << "String length: " << *length << endl;
+
+    delete str, length;
 }
 
 void fourth()
@@ -155,7 +161,7 @@ void fourth()
     cout << endl;
 }
 
-int *getSmallestElement(int *arr, int arrSize)
+int *minElelement(int *arr, int arrSize)
 {
     int *ans = &arr[0];
 
@@ -174,5 +180,5 @@ void fifth()
 {
     int arr[10] = {6, 1, 2, 3, 4, -3, 6, 7, 8, 9};
 
-    cout << *getSmallestElement(arr, 10) << endl;
+    cout << *minElelement(arr, 10) << endl;
 }
