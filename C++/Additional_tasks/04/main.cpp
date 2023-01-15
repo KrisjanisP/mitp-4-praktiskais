@@ -58,6 +58,7 @@
 #include <sstream>
 #include <limits>
 #include <vector>
+#include <stack>
 
 #define LEN 20
 
@@ -161,7 +162,8 @@ void first()
          << "4. Remove new file" << endl
          << "5. End program" << endl;
 
-    string fileName = "";
+    stack<string> fileNames;
+
     bool ok = true;
     do
     {
@@ -173,7 +175,9 @@ void first()
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             cout << "Enter file name: ";
+            string fileName;
             getline(cin, fileName);
+            fileNames.push(fileName);
 
             cout << "Enter file content: ";
             string temp;
@@ -187,18 +191,18 @@ void first()
             break;
         }
         case two:
-            if (fileName.c_str())
-                cout << "New file name: " << fileName << endl;
+            if (fileNames.size())
+                cout << "New file name: " << fileNames.top() << endl;
             else
                 cout << "No new file created!" << endl;
 
             break;
         case three:
         {
-            if (fileName.c_str())
+            if (fileNames.size())
             {
                 ofstream fileOut("first.txt", ios::out | ios::app);
-                ifstream fileIn(fileName, ios::in);
+                ifstream fileIn(fileNames.top(), ios::in);
 
                 while (true)
                 {
@@ -224,10 +228,10 @@ void first()
         }
         case four:
         {
-            if (fileName.c_str())
+            if (fileNames.size())
             {
-                remove(fileName.c_str());
-                fileName = "";
+                remove(fileNames.top().c_str());
+                fileNames.pop();
 
                 cout << "File deleted!" << endl;
             }
@@ -239,9 +243,21 @@ void first()
             break;
         }
         default:
-            if (!fileName.empty())
+            if (!fileNames.empty())
             {
-                cout << "Can't end program without deleting file!" << endl;
+                cout << "Can't end program without deleting files!" << endl
+                     << "Do you wish to delete all created files now? (y|n)" << endl;
+                char temp;
+                cin >> temp;
+                if (temp == 'y')
+                {
+                    while (!fileNames.empty())
+                    {
+                        remove(fileNames.top().c_str());
+                        fileNames.pop();
+                    }
+                    ok = false;
+                }
             }
             else
             {
