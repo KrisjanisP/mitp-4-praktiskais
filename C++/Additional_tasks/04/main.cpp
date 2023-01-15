@@ -54,7 +54,12 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstring>
+#include <sstream>
 #include <limits>
+#include <vector>
+
+#define LEN 20
 
 using namespace std;
 
@@ -199,11 +204,16 @@ void first()
                 {
                     string temp;
                     getline(fileIn, temp);
-                    fileOut << '\n' << temp;
+                    fileOut << '\n'
+                            << temp;
 
                     if (fileIn.eof())
                         break;
                 }
+
+                fileOut.close();
+                fileIn.close();
+
                 cout << "Content appended!" << endl;
             }
             else
@@ -255,25 +265,86 @@ bool isPrime(const int &x)
     return true;
 }
 
+string divideLargeNumber(const string &number, const int divisor)
+{
+    string result;
+
+    int index = 0;
+    int dividend = number[index] - '0';
+    while (dividend < divisor)
+    {
+        dividend = dividend * 10 + (number[++index] - '0');
+    }
+
+    while (number.size() > index)
+    {
+        result += (dividend / divisor) + '0';
+        dividend = (dividend % divisor) * 10 + number[++index] - '0';
+    }
+
+    if (result.length() == 0)
+    {
+        return "0";
+    }
+
+    return result;
+}
+
 void second()
 {
     int arr[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-    ofstream odd("file1.txt", ios::out), even("file2.txt", ios::out), prime("file3.txt", ios::out);
+    string fileNames[4] = {"file1.txt", "file2.txt", "file3.txt", "file2_1.txt"};
+    fstream fileIO[4];
+    for (int i = 0; i < 4; ++i)
+        fileIO[i].open(fileNames[i], ios::out);
 
+    int sum = 0;
     for (const &i : arr)
     {
         if (i & 1)
-            odd << i << ", ";
+            fileIO[0] << i << ", ";
         else
-            even << i << ", ";
+            fileIO[1] << i << ", ";
         if (isPrime(i))
-            prime << i << ", ";
+            fileIO[2] << i << ", ";
+        if (!(i % 15))
+            sum += i;
     }
 
-    odd.close();
-    even.close();
-    prime.close();
+    fileIO[3] << sum;
+
+    for (int i = 0; i < 4; ++i)
+        fileIO[i].close();
+
+    for (int i = 0; i < 4; ++i)
+        fileIO[i].open(fileNames[i], ios::in);
+
+    string concat = "";
+
+    for (auto &i : fileIO)
+    {
+        while (true)
+        {
+            char temp;
+            i.get(temp);
+
+            if (i.eof())
+                break;
+
+            if (temp >= '0' && temp <= '9')
+                concat.push_back(temp);
+        }
+    }
+
+    for (int i = 0; i < 4; ++i)
+        fileIO[i].close();
+
+    ofstream fileOut("file2_result.txt", ios::out);
+
+    fileOut << divideLargeNumber(concat, 2);
+
+    fileOut.close();
 }
 
 void third()
@@ -293,9 +364,60 @@ void third()
             ++charCount;
     }
 
-    fileIn.close();
-
     cout << "Character count: " << charCount << endl;
+
+    fileIn.clear();
+    fileIn.seekg(ios::beg);
+
+    int digitCount = 0, spaceCount = 0;
+    while (true)
+    {
+        char temp;
+        fileIn.get(temp);
+
+        if (fileIn.eof())
+            break;
+
+        if (temp >= '0' && temp <= '9')
+            ++digitCount;
+        else if (temp == ' ')
+            ++spaceCount;
+    }
+
+    cout << "Digit count: " << digitCount << endl
+         << "Space cound: " << spaceCount << endl;
+
+    fileIn.clear();
+    fileIn.seekg(ios::beg);
+
+    int wordCount = 0;
+    while (true)
+    {
+        string temp;
+        fileIn >> temp;
+
+        if (fileIn.eof())
+            break;
+
+        ++wordCount;
+    }
+
+    cout << "Word count: " << wordCount << endl;
+
+    fileIn.clear();
+    fileIn.seekg(ios::beg);
+
+    int lineCount = 0;
+    while (!fileIn.eof())
+    {
+        string temp;
+        getline(fileIn, temp);
+        ++lineCount;
+    }
+
+    cout << "Line count: " << lineCount << endl;
+
+    fileIn.close();
 }
 
 void fourth()
@@ -319,9 +441,82 @@ void fourth()
             fileOut << temp;
     }
 
+    fileIn.clear();
+    fileIn.seekg(ios::beg);
+    fileOut << "\n\n";
+
+    cout << "Enter two character string of characters to remove: ";
+    char str[2];
+    cin >> str;
+
+    while (true)
+    {
+        char temp;
+        fileIn.get(temp);
+
+        if (fileIn.eof())
+            break;
+
+        if (temp != str[0] && temp != str[1])
+            fileOut << temp;
+    }
+
+    fileIn.clear();
+    fileIn.seekg(ios::beg);
+    fileOut << "\n\n";
+
+    cout << "Enter word to remove: ";
+    string word;
+    cin >> word;
+
+    while (!fileIn.eof())
+    {
+        string temp;
+        getline(fileIn, temp);
+
+        istringstream stringIn(temp);
+
+        while (stringIn >> temp)
+            if (temp != word)
+                fileOut << temp << " ";
+
+        if (!fileOut.eof())
+            fileOut << "\n";
+    }
+
+    fileIn.clear();
+    fileIn.seekg(ios::beg);
+    fileOut << "\n\n";
+
+    cout << "Enter two characters (1st to be replaced by 2nd): ";
+    char find, replace;
+    cin >> find >> replace;
+
+    while (true)
+    {
+        char temp;
+        fileIn.get(temp);
+
+        if (fileIn.eof())
+            break;
+
+        if (temp == find)
+            fileOut << replace;
+        else
+            fileOut << temp;
+    }
+
     fileIn.close();
     fileOut.close();
 }
+
+struct MiTalent
+{
+    char name[LEN];
+    char surname[LEN];
+    int age;
+    char hobby[LEN];
+};
 
 void fifth()
 {
@@ -336,7 +531,7 @@ void fifth()
     bool ok = true;
     do
     {
-        const eNumber choice = static_cast<eNumber>((int)get_number("Choice: "));
+        const eNumber choice = static_cast<eNumber>((int)get_number("[5] Choice: "));
         switch (choice)
         {
         case one:
@@ -360,6 +555,133 @@ void fifth()
             }
             fileIn.close();
             cout << "Date: " << date << endl;
+            break;
+        }
+        default:
+            ok = false;
+            break;
+        }
+    } while (ok);
+
+    cout << "1. Show talents" << endl
+         << "2. Add talent" << endl
+         << "3. Remove talent" << endl
+         << "4. End program" << endl;
+
+    ok = true;
+    do
+    {
+        const eNumber choice = static_cast<eNumber>((int)get_number("[5] Choice: "));
+        switch (choice)
+        {
+        case one:
+        {
+            ifstream fileIn;
+            fileIn.open("fifth_2.bin", ios::in | ios::binary);
+
+            if (fileIn.is_open())
+            {
+                while (true)
+                {
+                    MiTalent currTalent;
+                    fileIn.read((char *)&currTalent, sizeof(MiTalent));
+
+                    if (fileIn.eof())
+                        break;
+                    else
+                        cout << "-------------" << endl;
+
+                    cout << "Name: " << currTalent.name << endl
+                         << "Surname: " << currTalent.surname << endl
+                         << "Age: " << currTalent.age << endl
+                         << "Hobby: " << currTalent.hobby << endl;
+                }
+            }
+            else
+            {
+                cout << "File doesn't exist!" << endl;
+            }
+
+            fileIn.close();
+
+            break;
+        }
+
+        case two:
+        {
+            ofstream fileOut("fifth_2.bin", ios::out | ios::app | ios::binary);
+
+            MiTalent talent;
+
+            string temp;
+
+            cout << "Name: ";
+            cin >> temp;
+            strcpy(talent.name, temp.c_str());
+
+            cout << "Surname:";
+            cin >> temp;
+            strcpy(talent.surname, temp.c_str());
+
+            talent.age = (int)get_number("Age: ");
+
+            cout << "Hobby: ";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            getline(cin, temp);
+            strcpy(talent.hobby, temp.c_str());
+
+            fileOut.write((char *)&talent, sizeof(MiTalent));
+
+            break;
+        }
+        case three:
+        {
+            cout << "Enter talent name to delete: ";
+            string talent_name;
+            cin >> talent_name;
+
+            ifstream fileIn("fifth_2.bin", ios::in | ios::binary);
+
+            vector<MiTalent> vector;
+
+            if (fileIn.is_open())
+            {
+                bool found = false;
+                while (true)
+                {
+                    MiTalent currTalent;
+                    fileIn.read((char *)&currTalent, sizeof(MiTalent));
+
+                    if (fileIn.eof())
+                        break;
+
+                    if (currTalent.name != talent_name)
+                        vector.push_back(currTalent);
+                    else
+                        found = true;
+                }
+                if (found)
+                {
+                    ofstream fileOut("fifth_2.bin", ios::out | ios::binary);
+                    for (const auto &i : vector)
+                        fileOut.write((char *)&i, sizeof(MiTalent));
+
+                    fileOut.close();
+
+                    cout << "Deleted talent with name: " << talent_name << endl;
+                }
+                else
+                {
+                    cout << "Talent not found!" << endl;
+                }
+            }
+            else
+            {
+                cout << "No talents saved!" << endl;
+            }
+
+            fileIn.close();
+
             break;
         }
         default:
