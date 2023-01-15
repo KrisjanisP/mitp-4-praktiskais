@@ -104,6 +104,15 @@ void first()
     delete numA, numB;
 }
 
+bool foundElement(int arr[], int arrSize, int *find)
+{
+    for (const int *i = arr; i != (arr + arrSize); ++i)
+        if (*i == *find)
+            return true;
+
+    return false;
+}
+
 void second()
 {
     int arr[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -112,20 +121,12 @@ void second()
     int *find = new int;
     cin >> *find;
 
-    bool *found = new bool(false);
-    for (const int *i = arr; i != end(arr); ++i)
-    {
-        if (*i == *find)
-        {
-            cout << "Number is in array!" << endl;
-            *found = true;
-        }
-    }
-
-    if (!*found)
+    if (foundElement(arr, 10, find))
+        cout << "Number found in array!" << endl;
+    else
         cout << "Number not found in array!" << endl;
 
-    delete find, found;
+    delete find;
 }
 
 void third()
@@ -147,11 +148,9 @@ void third()
     delete str, length;
 }
 
-void fourth()
+void printReverse(int *arr, int arrSize)
 {
-    int arr[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-
-    for (const int *i = &arr[9];; --i)
+    for (const int *i = &arr[arrSize - 1];; --i)
     {
         cout << *i << " ";
 
@@ -159,6 +158,13 @@ void fourth()
             break;
     }
     cout << endl;
+}
+
+void fourth()
+{
+    int arr[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    printReverse(arr, 10);
 }
 
 int *minElelement(int *arr, int arrSize)
