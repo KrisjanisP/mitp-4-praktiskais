@@ -343,9 +343,11 @@ public:
                 purchasable.push_back(index);
         }
 
+        int position = 0; // goes around purchasable
         while (purchasable.size() > 0)
         {
-            int taking = purchasable[rand() % purchasable.size()];
+            position %= purchasable.size();
+            int taking = purchasable[position++];
             string name = data[taking].name;
 
             purchasedDict[name].price = data[taking].price;
@@ -353,13 +355,16 @@ public:
             memcpy(purchasedDict[name].name, data[taking].name, sizeof(data[taking].name));
             money -= data[taking].price;
             data[taking].available--;
+            if(data[taking].available==0)
+                position--;
             data[taking].sold++;
 
             purchasable.clear();
             for (auto index : getAvailableIndices())
             {
-                if (data[index].price <= money)
+                if (data[index].price <= money){
                     purchasable.push_back(index);
+                }
             }
         }
 
