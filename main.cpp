@@ -353,6 +353,7 @@ public:
             memcpy(purchasedDict[name].name, data[taking].name, sizeof(data[taking].name));
             money -= data[taking].price;
             data[taking].available--;
+            data[taking].sold++;
 
             purchasable.clear();
             for (auto index : getAvailableIndices())
