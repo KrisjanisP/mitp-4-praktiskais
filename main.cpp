@@ -29,6 +29,7 @@
 #include <cstring>
 #include <vector>
 #include <limits>
+#include <map>
 
 #define NAME_LENGTH 20
 
@@ -48,6 +49,7 @@ enum eOptions
     MostCheap,
     MostAvailable,
     LeastAvailable,
+    ShoppingSpree,
     Random,
     Sum,
     End
@@ -57,14 +59,37 @@ struct Product
 {
     char name[NAME_LENGTH + 1];
     double price;
+};
+
+struct ProductStorage : public Product
+{
     int available;
     int sold;
+};
+
+struct ProductShoppingSpree : public Product
+{
+    int purchased;
 };
 
 class Storage
 {
 private:
-    vector<Product> data;
+    vector<ProductStorage> data;
+
+    void printShoppingSpreeTable(const vector<ProductShoppingSpree> &productVec)
+    {
+        cout << "|----------------------------------------------------------|" << endl;
+        cout << "| # |" << setw(12) << "Name" << setw(8) << "|" << setw(8) << "Price" << setw(4) << "|" << setw(11) << "Purchased" << setw(3) << "|" << endl;
+        cout << "|----------------------------------------------------------|" << endl;
+
+        for (int i = 0; i < productVec.size() && i < 3; ++i)
+        {
+            cout << "| " << i + 1 << " | " << setw(18) << left << productVec[i].name << "| " << setw(10) << left << productVec[i].price << "| " << setw(12) << left << productVec[i].purchased << "|" << right << endl;
+        }
+
+        cout << "|----------------------------------------------------------|" << endl;
+    }
 
     void printTop3Table()
     {
@@ -80,6 +105,17 @@ private:
         cout << "|----------------------------------------------------------|" << endl;
     }
 
+    vector<int> getAvailableIndices()
+    {
+        vector<int> res;
+        for (int i = 0; i < data.size(); i++)
+        {
+            if (data[i].available > 0)
+                res.push_back(i);
+        }
+        return res;
+    }
+
 public:
     Storage()
     {
@@ -92,7 +128,7 @@ public:
             fileIn.read((char *)&size, sizeof(size));
 
             data.resize(size);
-            fileIn.read((char *)&data[0], size * sizeof(Product));
+            fileIn.read((char *)&data[0], size * sizeof(ProductStorage));
 
             cout << "Opened " << size << " product(s) from file!" << endl;
         }
@@ -107,7 +143,7 @@ public:
         size_t size = data.size();
         fileOut.write((char *)&size, sizeof(size));
 
-        fileOut.write((char *)&data[0], data.size() * sizeof(Product));
+        fileOut.write((char *)&data[0], data.size() * sizeof(ProductStorage));
 
         fileOut.close();
 
@@ -123,7 +159,7 @@ public:
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, productName);
 
-        auto elementPos = find_if(data.begin(), data.end(), [&productName](const Product i)
+        auto elementPos = find_if(data.begin(), data.end(), [&productName](const ProductStorage i)
                                   { return (i.name == productName); });
 
         if (elementPos != data.end())
@@ -137,10 +173,10 @@ public:
         }
         else
         {
-            cout << "Product not found. New product will be added." << endl
+            cout << "ProductStorageStatistics not found. New product will be added." << endl
                  << "Enter the details: " << endl;
 
-            Product product;
+            ProductStorage product;
 
             strcpy(product.name, productName.c_str());
 
@@ -230,7 +266,7 @@ public:
 
     void mostSold()
     {
-        sort(data.begin(), data.end(), [](const Product &a, const Product &b)
+        sort(data.begin(), data.end(), [](const ProductStorage &a, const ProductStorage &b)
              { return a.sold > b.sold; });
 
         printTop3Table();
@@ -238,7 +274,7 @@ public:
 
     void leastSold()
     {
-        sort(data.begin(), data.end(), [](Product a, Product b)
+        sort(data.begin(), data.end(), [](ProductStorage a, ProductStorage b)
              { return a.sold < b.sold; });
 
         printTop3Table();
@@ -246,7 +282,7 @@ public:
 
     void mostEarned()
     {
-        sort(data.begin(), data.end(), [](Product a, Product b)
+        sort(data.begin(), data.end(), [](ProductStorage a, ProductStorage b)
              { return double(a.sold) * a.price > double(b.sold) * b.price; });
 
         printTop3Table();
@@ -254,7 +290,7 @@ public:
 
     void leastEarned()
     {
-        sort(data.begin(), data.end(), [](const Product &a, const Product &b)
+        sort(data.begin(), data.end(), [](const ProductStorage &a, const ProductStorage &b)
              { return a.sold * a.price < b.sold * b.price; });
 
         printTop3Table();
@@ -262,7 +298,7 @@ public:
 
     void mostExpensive()
     {
-        sort(data.begin(), data.end(), [](const Product &a, const Product &b)
+        sort(data.begin(), data.end(), [](const ProductStorage &a, const ProductStorage &b)
              { return a.price > b.price; });
 
         printTop3Table();
@@ -270,7 +306,7 @@ public:
 
     void mostCheap()
     {
-        sort(data.begin(), data.end(), [](Product a, Product b)
+        sort(data.begin(), data.end(), [](ProductStorage a, ProductStorage b)
              { return a.price < b.price; });
 
         printTop3Table();
@@ -278,20 +314,58 @@ public:
 
     void mostAvailable()
     {
-        sort(data.begin(), data.end(), [](Product a, Product b) {
-            return a.available > b.available;
-        });
+        sort(data.begin(), data.end(), [](ProductStorage a, ProductStorage b)
+             { return a.available > b.available; });
 
         printTop3Table();
     }
 
     void leastAvailable()
     {
-        sort(data.begin(), data.end(), [](Product a, Product b) {
-            return a.available < b.available;
-        });
+        sort(data.begin(), data.end(), [](ProductStorage a, ProductStorage b)
+             { return a.available < b.available; });
 
         printTop3Table();
+    }
+
+    void shoppingSpree()
+    {
+        double money;
+        cout << "Ievadiet naudas summu: ";
+        cin >> money;
+
+        map<string, ProductShoppingSpree> purchasedDict;
+
+        vector<int> purchasable;
+        for (auto index : getAvailableIndices())
+        {
+            if (data[index].price <= money)
+                purchasable.push_back(index);
+        }
+
+        while (purchasable.size() > 0)
+        {
+            int taking = purchasable[rand() % purchasable.size()];
+            string name = data[taking].name;
+
+            purchasedDict[name].price = data[taking].price;
+            purchasedDict[name].purchased++;
+            memcpy(purchasedDict[name].name, data[taking].name, sizeof(data[taking].name));
+            money -= data[taking].price;
+            data[taking].available--;
+
+            purchasable.clear();
+            for (auto index : getAvailableIndices())
+            {
+                if (data[index].price <= money)
+                    purchasable.push_back(index);
+            }
+        }
+
+        vector<ProductShoppingSpree> purchased;
+        for (auto product : purchasedDict)
+            purchased.push_back(product.second);
+        printShoppingSpreeTable(purchased);
     }
 
     void random()
@@ -380,9 +454,10 @@ public:
         cout << "10 - Least expensive product Top 3" << endl;
         cout << "11 - Most available product Top 3" << endl;
         cout << "12 - Least available product Top 3" << endl;
-        cout << "13 - Random product" << endl;
-        cout << "14 - Max sum" << endl;
-        cout << "15 - Stop execution" << endl;
+        cout << "13 - Enter shopping spree" << endl;
+        cout << "14 - Random product" << endl;
+        cout << "15 - Max sum" << endl;
+        cout << "16 - Stop execution" << endl;
         cout << "------------------------------------------" << endl;
         int op;
         cout << "Choice: ";
@@ -393,9 +468,11 @@ public:
 
 int main()
 {
+    srand(time(NULL));
+
     Storage storage;
     int op = 0;
-    while (op != 13)
+    while (op != End)
     {
         op = storage.menu();
         switch (op - 1)
@@ -435,6 +512,9 @@ int main()
             break;
         case (LeastAvailable):
             storage.leastAvailable();
+            break;
+        case (ShoppingSpree):
+            storage.shoppingSpree();
             break;
         case (Random):
             storage.random();

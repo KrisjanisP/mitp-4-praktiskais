@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "kbuild": "plaintext",
         "*.cfg": "plaintext",
         "iostream": "cpp",
         "ostream": "cpp",
@@ -13,6 +14,7 @@
         "vector": "cpp",
         "*.tcc": "cpp",
         "iosfwd": "cpp",
-        "new": "cpp"
+        "new": "cpp",
+        "iomanip": "cpp"
     }
 }
