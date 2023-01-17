@@ -12,6 +12,7 @@
         "stack": "cpp",
         "vector": "cpp",
         "*.tcc": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "new": "cpp"
     }
 }
