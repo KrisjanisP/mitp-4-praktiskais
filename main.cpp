@@ -46,6 +46,8 @@ enum eOptions
     LeastEarned,
     MostExpensive,
     MostCheap,
+    MostAvailable,
+    LeastAvailable,
     Random,
     Sum,
     End
@@ -274,6 +276,24 @@ public:
         printTop3Table();
     }
 
+    void mostAvailable()
+    {
+        sort(data.begin(), data.end(), [](Product a, Product b) {
+            return a.available > b.available;
+        });
+
+        printTop3Table();
+    }
+
+    void leastAvailable()
+    {
+        sort(data.begin(), data.end(), [](Product a, Product b) {
+            return a.available < b.available;
+        });
+
+        printTop3Table();
+    }
+
     void random()
     {
         cout << "Enter product quanitity: ";
@@ -358,9 +378,11 @@ public:
         cout << "8 - Least profitable product Top 3" << endl;
         cout << "9 - Most expensive product Top 3" << endl;
         cout << "10 - Least expensive product Top 3" << endl;
-        cout << "11 - Random product" << endl;
-        cout << "12 - Max sum" << endl;
-        cout << "13 - Stop execution" << endl;
+        cout << "11 - Most available product Top 3" << endl;
+        cout << "12 - Least available product Top 3" << endl;
+        cout << "13 - Random product" << endl;
+        cout << "14 - Max sum" << endl;
+        cout << "15 - Stop execution" << endl;
         cout << "------------------------------------------" << endl;
         int op;
         cout << "Choice: ";
@@ -407,6 +429,12 @@ int main()
             break;
         case (MostCheap):
             storage.mostCheap();
+            break;
+        case (MostAvailable):
+            storage.mostAvailable();
+            break;
+        case (LeastAvailable):
+            storage.leastAvailable();
             break;
         case (Random):
             storage.random();
